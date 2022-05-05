@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 mongoose
-  .connect("mongodb://localhost/finder")
+  .connect("mongodb://127.0.0.1/finder")
   .then((conn) => {
     console.log("--DB connnected--");
   })
