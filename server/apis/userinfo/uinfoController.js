@@ -6,10 +6,7 @@ const user = require("../user/userModel");
 const salts = 10;
 const SECRET = "finder";
 
-// const uverify = (em, num) => {
-//   if (user.findOne({ "email": this.em}).then(data=>)) {
-//   }
-// };
+
 exports.addUser = (req, res) => {
   if (
     req.body == undefined ||

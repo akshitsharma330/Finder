@@ -8,7 +8,7 @@ module.exports = (req,res,next) => {
             return res.json({"success": false,"status":401,"message": 'Unauthorized access.' });
         }
         req.decoded = decoded;
-        if(req.decoded==null || req.decoded.userType==null||req.decoded.userType !=3){
+        if(req.decoded==null || req.decoded.userType==null||req.decoded.userType !=1){
           res.json({
             "message":"Not Allowed",
             "status":403,

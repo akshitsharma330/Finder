@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const uinfoController = require("../apis/userinfo/uinfocontroller");
+const uinfoController = require("../apis/userinfo/uinfoController");
 router.get("/", (req, res) => {
   res.send("Welcome to USERS");
 });
