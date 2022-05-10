@@ -1,30 +1,24 @@
-const User = require('../apis/user/userModel')
+const user = require('../apis/user/userModel')
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 exports.insertUser = ()=>{
-    let data = {
-        name:'Admin',
-        email:'admin@gmail.com',
-        password:'1234',
-        userType:3
-    } 
-    const hash = bcrypt.hashSync('1234', saltRounds);
-    data.password = hash
-    User.countDocuments()
-    .then(total=>{
-        data.userId = total+1
-        User.findOne({'email':'admin@gmail.com'})
-        .then(use=>{ 
-            if(use==null){
-                let useObj = new User(data)
-                useObj.save(data,err=>{
-                    console.log("Admin saved")
-                })
-            }
-        })
-        .catch(err=>{
-            console.log("Error in Save Admin")
-        })
-        
+    let adminData = new user();
+    adminData.name = 'admin';
+    adminData.email = 'admin@example.com';
+    let pass = bcrypt.hashSync('this_is_password', saltRounds);
+
+    adminData.password = pass;
+    user.findOne({'email': adminData.email})
+    .then(data =>{
+        if(data==null){
+            adminData.save().then(data=>{
+                console.log('admin user added')
+            })
+            .catch(err =>{
+                console.log('error adding admin')
+            })
+        }
     })
+    
+    
 }

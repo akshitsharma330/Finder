@@ -3,7 +3,7 @@ module.exports = (req,res,next) => {
   const token = req.headers['authorization']
   if (token) {
     // verifies secret and checks exp
-    jwt.verify(token, 'T3sT@123', function(err, decoded) {
+    jwt.verify(token, 'finder', function(err, decoded) {
         if (err) {          
             return res.json({"success": false,"status":401,"message": 'Unauthorized access.' });
         }

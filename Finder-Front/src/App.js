@@ -7,24 +7,25 @@ import ContactUs  from "./Components/ContactUs/ContactUs";
 import About  from "./Components/About/About";
 import AdPost from "./Components/AdPost/AdPost";
 import Dashboard from "./Components/Dashboard/Dashboard";
+import UserMaster from "./Components/UserMaster/UserMaster";
 
 import AdView from "./Components/AdView/AdView";
 function App() {
   return (
    <>
     <BrowserRouter>
-      <Navbar />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/contact-us" element={<ContactUs/>}/>
-        <Route path="/about" element={<About/>}/>
-        <Route path="/AdPost" element={<AdPost/>}/>
-        <Route path="/dashboard" element={<Dashboard/>}/>
-        <Route path="/AdView" element={<AdView/>}/>
-
+        <Route path="/" element={<UserMaster />} >
+          <Route index element={<Home />} />
+          <Route path="/contact-us" element={<ContactUs/>}/>
+          <Route path="/about" element={<About/>}/>
+          <Route path="/AdPost" element={<AdPost/>}/>
+          <Route path="/dashboard" element={<Dashboard/>}/>
+          <Route path="/AdView" element={<AdView/>}/>
+          </Route>
 
       </Routes>
-      <Footer />
+      
     </BrowserRouter>
    </>
   );

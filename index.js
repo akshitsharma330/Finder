@@ -1,27 +1,21 @@
 const express = require("express");
 const app = express();
-const userRoutes = require("./server/routes/userroutes");
-const adminroutes = require('./server/routes/userroutes')
-
-
+const userRoutes = require("./server/routes/userRoutes");
+const adminRoutes = require('./server/routes/adminRoutes')
+const seed = require('./server/config/seed')
 const db = require("./server/config/db");
+seed.insertUser()
 // to handle the request body parse into post method
 app.use(express.urlencoded({ extended: false }));
 
-app.get("/", (req, res) => {
-  res.send("test");
-});
-app.use("/user", userRoutes);
-
-
-app.use('/admin',adminroutes)
-
-
-const seed = require('./server/config/seed')
-seed.insertUser()
-
-
-app.listen(8080, () => {
-  console.log("server is running on port 8080");
+app.use("/", userRoutes);
+app.use('/admin',adminRoutes)
+app.listen(8080, (err, res) => {
+  if(err){
+    console.log("Error in initializing server");
+  }
+  else{
+    console.log("Server is running on port 8080");
+  }
 });
            
