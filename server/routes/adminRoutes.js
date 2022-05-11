@@ -5,10 +5,10 @@ router.get("/", (req, res) => {
     res.send("Welcome to Admin");
   });
 router.post('/login',userController.login)
-// router.use(require('../common/adminmiddleware'))
+router.use(require('../common/adminmiddleware'))
 
 
-// router.post("/adduser", userController.addUser);
+router.post("/adduser", userController.addUser);
 // router.post("/showuser", userController.showuser);
 
 

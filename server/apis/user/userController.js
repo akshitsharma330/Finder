@@ -1,5 +1,6 @@
-const uinfo = require("../userinfo/uinfoModel");
+const uinfoModel = require("../userinfo/uinfoModel");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const userModel = require("./userModel");
 const salts = 10;
@@ -15,11 +16,11 @@ exports.addUser = (req, res) => {
     ) {
       res.json({
         msg: "Please fill the form",
-        satus: 200,
+        satus: 204,
         success: false,
       });
     } else {
-      user
+      userModel
         .findOne({ email: req.body.email })
         .exec()
         .then((data) => {
@@ -30,7 +31,7 @@ exports.addUser = (req, res) => {
               success: false,
             });
           } else {
-            let uinfoObj = new uinfo();
+            let uinfoObj = new uinfoModel();
             uinfoObj.name = req.body.name;
             uinfoObj.email = req.body.email;
             uinfoObj.gender = req.body.gender;
@@ -80,7 +81,7 @@ exports.addUser = (req, res) => {
     }
   };
 exports.login = (req,res)=>{
-    User.findOne({'email':req.body.email})
+    userModel.findOne({'email':req.body.email})
     .then(uObj=>{
         if(uObj==null){
             res.json({
@@ -93,8 +94,7 @@ exports.login = (req,res)=>{
                 let payload = {
                     name:uObj.name,
                     email:uObj.email,
-                    userType:uObj.userType,
-                    studentId:uObj.studentId,
+                    uType:uObj.uType,
                     _id:uObj._id
                 }
                 let token = jwt.sign(payload,SECRET, { expiresIn: 60*60*24*365 })
