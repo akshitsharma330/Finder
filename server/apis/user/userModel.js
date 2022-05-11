@@ -1,6 +1,6 @@
 var mongoose = require("mongoose");
 var userSchema = mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, default: null },
+  user_Id: { type: mongoose.Schema.Types.ObjectId, default: null },
   name: { type: String, default: "" , required: true },
   email: { type: String, default: "",required: true},
   password: { type: String, default: "" , required: true},

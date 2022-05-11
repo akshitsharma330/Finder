@@ -22,7 +22,7 @@ module.exports = (req,res,next) => {
     return res.json({
         status:403,
         success:false,
-        message:"Un Autorized. Token Invalid"
+        message:"Un Authorized. Token Invalid"
     });
   }
 }

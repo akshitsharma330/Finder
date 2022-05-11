@@ -42,7 +42,7 @@ exports.addUser = (req, res) => {
             uinfoObj
               .save()
               .then((uobj) => {
-                let userObj = new user();
+                let userObj = new userModel();
                 userObj.name = req.body.name;
                 userObj.userId = uobj._id;
                 userObj.password = req.body.name;
