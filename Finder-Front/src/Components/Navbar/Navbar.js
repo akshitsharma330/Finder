@@ -116,9 +116,9 @@ export default function Navbar() {
                   </ul>
                   <ul className="navbar-nav ml-auto mt-10">
                     <li className="nav-item">
-                      <a className="nav-link login-button" href="login.html">
+                      <Link className="nav-link login-button" to="/login">
                         Login
-                      </a>
+                      </Link>
                     </li>
                     <li className="nav-item">
                       <Link
