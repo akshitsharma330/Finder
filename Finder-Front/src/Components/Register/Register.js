@@ -1,6 +1,7 @@
 import axios from 'axios';
 import qs from 'qs';
 export default function Register() {
+  
   return (
     <>
       <section className="login py-5 border-top-1">

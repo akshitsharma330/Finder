@@ -8,7 +8,7 @@ export default function Navbar() {
             <div className="col-md-12">
               <nav className="navbar navbar-expand-lg navbar-light navigation">
                 <Link className="navbar-brand" to="/">
-                  <img className="img-responsive  " src="assets/images/finder-logo.jpeg" height="90" alt="" />
+                  <img className="img-responsive rounded " src="assets/images/finder-logo.jpeg" height="90" alt="" />
                 </Link>
                 <button
                   className="navbar-toggler"
@@ -29,11 +29,6 @@ export default function Navbar() {
                     <li className="nav-item active">
                       <Link className="nav-link" to="/">
                         Home
-                      </Link>
-                    </li>
-                    <li className="nav-item active">
-                      <Link className="nav-link" to="/dashboard">
-                        Dashboard
                       </Link>
                     </li>
                     <li className="nav-item dropdown dropdown-slide">
@@ -113,16 +108,21 @@ export default function Navbar() {
                         Contact-us
                       </Link>
                     </li>
+                    <li className="nav-item active">
+                      <Link className="nav-link" to="/dashboard">
+                        Dashboard
+                      </Link>
+                    </li>
                   </ul>
                   <ul className="navbar-nav ml-auto mt-10">
                     <li className="nav-item">
-                      <Link className="nav-link login-button" to="/login">
+                      <Link className="nav-link login-button bg-primary text-light rounded" to="/login">
                         Login
                       </Link>
                     </li>
                     <li className="nav-item">
                       <Link
-                        className="nav-link text-white add-button"
+                        className="nav-link text-white add-button bg-info rounded"
                         to="AdPost"
                       >
                         <i className="fa fa-plus-circle"></i> Post Ad
