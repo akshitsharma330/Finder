@@ -1,61 +1,61 @@
 export default function AdPost() {
   return (
     <>
-      <section class="ad-post bg-gray py-5">
-        <div class="container">
+      <section className="ad-post bg-gray py-5">
+        <div className="container">
           <form action="#">
             {/* <!-- Post Your ad start --> */}
-            <fieldset class="border border-gary p-4 mb-5">
-              <div class="row">
-                <div class="col-lg-12">
+            <fieldset className="border border-gary p-4 mb-5">
+              <div className="row">
+                <div className="col-lg-12">
                   <h3>Post Your ad</h3>
                 </div>
-                <div class="col-lg-6">
-                  <h6 class="font-weight-bold pt-4 pb-1">Title Of Ad:</h6>
+                <div className="col-lg-6">
+                  <h6 className="font-weight-bold pt-4 pb-1">Title Of Ad:</h6>
                   <input
                     type="text"
-                    class="border w-100 p-2 bg-white text-capitalize"
+                    className="border w-100 p-2 bg-white text-capitalize"
                     placeholder="Ad title go There"
                   />
-                  <h6 class="font-weight-bold pt-4 pb-1">Ad Type:</h6>
-                  <div class="row px-3">
-                    <div class="col-lg-4 mr-lg-4 my-2 rounded bg-white">
+                  <h6 className="font-weight-bold pt-4 pb-1">Ad Type:</h6>
+                  <div className="row px-3">
+                    <div className="col-lg-4 mr-lg-4 my-2 rounded bg-white">
                       <input
                         type="radio"
                         name="itemName"
                         value="personal"
                         id="personal"
                       />
-                      <label for="personal" class="py-2">
+                      <label for="personal" className="py-2">
                         Personal
                       </label>
                     </div>
-                    <div class="col-lg-4 mr-lg-4 my-2 rounded bg-white ">
+                    <div className="col-lg-4 mr-lg-4 my-2 rounded bg-white ">
                       <input
                         type="radio"
                         name="itemName"
                         value="business"
                         id="business"
                       />
-                      <label for="business" class="py-2">
+                      <label for="business" className="py-2">
                         Business
                       </label>
                     </div>
                   </div>
-                  <h6 class="font-weight-bold pt-4 pb-1">Description:</h6>
+                  <h6 className="font-weight-bold pt-4 pb-1">Description:</h6>
                   <textarea
                     name=""
                     id=""
-                    class="border p-3 w-100"
+                    className="border p-3 w-100"
                     rows="7"
                     placeholder="Write details about your product"
                   ></textarea>
                 </div>
-                <div class="col-lg-6">
-                  <h6 class="font-weight-bold pt-4 pb-1">
+                <div className="col-lg-6">
+                  <h6 className="font-weight-bold pt-4 pb-1">
                     Select Ad Category:
                   </h6>
-                  <select name="" id="inputGroupSelect" class="w-100">
+                  <select name="" id="inputGroupSelect" className="w-100">
                     <option value="1">Select category</option>
                     <option value="2">Laptops</option>
                     <option value="3">iphone</option>
@@ -67,47 +67,47 @@ export default function AdPost() {
                     <option value="9">Study Table Combo</option>
                     <option value="10">11inch Macbook Air</option>
                   </select>
-                  <div class="price">
-                    <h6 class="font-weight-bold pt-4 pb-1">
+                  <div className="price">
+                    <h6 className="font-weight-bold pt-4 pb-1">
                       Item Price ($ USD):
                     </h6>
-                    <div class="row px-3">
-                      <div class="col-lg-4 mr-lg-4 rounded bg-white my-2 ">
+                    <div className="row px-3">
+                      <div className="col-lg-4 mr-lg-4 rounded bg-white my-2 ">
                         <input
                           type="text"
                           name="price"
-                          class="border-0 py-2 w-100 price"
+                          className="border-0 py-2 w-100 price"
                           placeholder="Price"
                           id="price"
                         />
                       </div>
-                      <div class="col-lg-4 mrx-4 rounded bg-white my-2 ">
+                      <div className="col-lg-4 mrx-4 rounded bg-white my-2 ">
                         <input
                           type="checkbox"
                           value="Negotiable"
                           id="Negotiable"
                         />
-                        <label for="Negotiable" class="py-2">
+                        <label for="Negotiable" className="py-2">
                           Negotiable
                         </label>
                       </div>
                     </div>
                   </div>
-                  <div class="choose-file text-center my-4 py-4 rounded">
+                  <div className="choose-file text-center my-4 py-4 rounded">
                     <label for="file-upload">
-                      <span class="d-block font-weight-bold text-dark">
+                      <span className="d-block font-weight-bold text-dark">
                         Drop files anywhere to upload
                       </span>
-                      <span class="d-block">or</span>
-                      <span class="d-block btn bg-primary text-white my-3 select-files">
+                      <span className="d-block">or</span>
+                      <span className="d-block btn bg-primary text-white my-3 select-files">
                         Select files
                       </span>
-                      <span class="d-block">
+                      <span className="d-block">
                         Maximum upload file size: 500 KB
                       </span>
                       <input
                         type="file"
-                        class="form-control-file d-none"
+                        className="form-control-file d-none"
                         id="file-upload"
                         name="file"
                       />
@@ -119,37 +119,37 @@ export default function AdPost() {
             {/* <!-- Post Your ad end --> */}
 
             {/* <!-- seller-information start --> */}
-            <fieldset class="border p-4 my-5 seller-information bg-gray">
-              <div class="row">
-                <div class="col-lg-12">
+            <fieldset className="border p-4 my-5 seller-information bg-gray">
+              <div className="row">
+                <div className="col-lg-12">
                   <h3>Seller Information</h3>
                 </div>
-                <div class="col-lg-6">
-                  <h6 class="font-weight-bold pt-4 pb-1">Contact Name:</h6>
+                <div className="col-lg-6">
+                  <h6 className="font-weight-bold pt-4 pb-1">Contact Name:</h6>
                   <input
                     type="text"
                     placeholder="Contact name"
-                    class="border w-100 p-2"
+                    className="border w-100 p-2"
                   />
-                  <h6 class="font-weight-bold pt-4 pb-1">Contact Number:</h6>
+                  <h6 className="font-weight-bold pt-4 pb-1">Contact Number:</h6>
                   <input
                     type="text"
                     placeholder="Contact Number"
-                    class="border w-100 p-2"
+                    className="border w-100 p-2"
                   />
                 </div>
-                <div class="col-lg-6">
-                  <h6 class="font-weight-bold pt-4 pb-1">Contact Name:</h6>
+                <div className="col-lg-6">
+                  <h6 className="font-weight-bold pt-4 pb-1">Contact Name:</h6>
                   <input
                     type="email"
                     placeholder="name@yourmail.com"
-                    class="border w-100 p-2"
+                    className="border w-100 p-2"
                   />
-                  <h6 class="font-weight-bold pt-4 pb-1">Contact Name:</h6>
+                  <h6 className="font-weight-bold pt-4 pb-1">Contact Name:</h6>
                   <input
                     type="text"
                     placeholder="Your address"
-                    class="border w-100 p-2"
+                    className="border w-100 p-2"
                   />
                 </div>
               </div>
@@ -157,29 +157,29 @@ export default function AdPost() {
             {/* <!-- seller-information end--> */}
 
             {/* <!-- ad-feature start --> */}
-            <fieldset class="border bg-white p-4 my-5 ad-feature bg-gray">
-              <div class="row">
-                <div class="col-lg-12">
-                  <h3 class="pb-3">
+            <fieldset className="border bg-white p-4 my-5 ad-feature bg-gray">
+              <div className="row">
+                <div className="col-lg-12">
+                  <h3 className="pb-3">
                     Make Your Ad Featured
-                    <span class="float-right">
+                    <span className="float-right">
                       <a
-                        class="text-right font-weight-normal text-success"
-                        href="#"
+                        className="text-right font-weight-normal text-success"
+                        
                       >
                         What is featured ad ?
                       </a>
                     </span>
                   </h3>
                 </div>
-                <div class="col-lg-6 my-3">
-                  <span class="mb-3 d-block">Premium Ad Options:</span>
+                <div className="col-lg-6 my-3">
+                  <span className="mb-3 d-block">Premium Ad Options:</span>
                   <ul>
                     <li>
                       <input type="radio" id="regular-ad" name="adfeature" />
                       <label
                         for="regular-ad"
-                        class="font-weight-bold text-dark py-1"
+                        className="font-weight-bold text-dark py-1"
                       >
                         Regular Ad
                       </label>
@@ -189,7 +189,7 @@ export default function AdPost() {
                       <input type="radio" id="Featured-Ads" name="adfeature" />
                       <label
                         for="Featured-Ads"
-                        class="font-weight-bold text-dark py-1"
+                        className="font-weight-bold text-dark py-1"
                       >
                         Top Featured Ads
                       </label>
@@ -199,7 +199,7 @@ export default function AdPost() {
                       <input type="radio" id="urgent-Ads" name="adfeature" />
                       <label
                         for="urgent-Ads"
-                        class="font-weight-bold text-dark py-1"
+                        className="font-weight-bold text-dark py-1"
                       >
                         Urgent Ads
                       </label>
@@ -207,8 +207,8 @@ export default function AdPost() {
                     </li>
                   </ul>
                 </div>
-                <div class="col-lg-6 my-3">
-                  <span class="mb-3 d-block">
+                <div className="col-lg-6 my-3">
+                  <span className="mb-3 d-block">
                     Please select the preferred payment method:
                   </span>
                   <ul>
@@ -216,7 +216,7 @@ export default function AdPost() {
                       <input type="radio" id="bank-transfer" name="adfeature" />
                       <label
                         for="bank-transfer"
-                        class="font-weight-bold text-dark py-1"
+                        className="font-weight-bold text-dark py-1"
                       >
                         Direct Bank Transfer
                       </label>
@@ -229,7 +229,7 @@ export default function AdPost() {
                       />
                       <label
                         for="Cheque-Payment"
-                        class="font-weight-bold text-dark py-1"
+                        className="font-weight-bold text-dark py-1"
                       >
                         Cheque Payment
                       </label>
@@ -238,7 +238,7 @@ export default function AdPost() {
                       <input type="radio" id="Credit-Card" name="adfeature" />
                       <label
                         for="Credit-Card"
-                        class="font-weight-bold text-dark py-1"
+                        className="font-weight-bold text-dark py-1"
                       >
                         Credit Card
                       </label>
@@ -250,19 +250,19 @@ export default function AdPost() {
             {/* <!-- ad-feature start --> */}
 
             {/* <!-- submit button --> */}
-            <div class="checkbox d-inline-flex">
-              <input type="checkbox" id="terms-&-condition" class="mt-1" />
-              <label for="terms-&-condition" class="ml-2">
+            <div className="checkbox d-inline-flex">
+              <input type="checkbox" id="terms-&-condition" className="mt-1" />
+              <label for="terms-&-condition" className="ml-2">
                 By click you must agree with our
                 <span>
                   {" "}
-                  <a class="text-success" href="terms-condition.html">
+                  <a className="text-successterms-condition.html">
                     Terms & Condition and Posting Rules.
                   </a>
                 </span>
               </label>
             </div>
-            <button type="submit" class="btn btn-primary d-block mt-2">
+            <button type="submit" className="btn btn-primary d-block mt-2">
               Post Your Ad
             </button>
           </form>

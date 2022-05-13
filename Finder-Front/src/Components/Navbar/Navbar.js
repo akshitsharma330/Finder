@@ -7,9 +7,9 @@ export default function Navbar() {
           <div className="row">
             <div className="col-md-12">
               <nav className="navbar navbar-expand-lg navbar-light navigation">
-                <a className="navbar-brand" href="index.html">
-                  <img src="assets/images/finder-logo.jpeg" height="90" alt="" />
-                </a>
+                <Link className="navbar-brand" to="/">
+                  <img className="img-responsive  " src="assets/images/finder-logo.jpeg" height="90" alt="" />
+                </Link>
                 <button
                   className="navbar-toggler"
                   type="button"
