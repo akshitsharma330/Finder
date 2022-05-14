@@ -1,8 +1,13 @@
-var mongoose = require('mogoose');
+var mongoose = require('mongoose')
 var subCatSchema = mongoose.Schema({
-    name : {type: 'string', required: true},
-    description : {type: 'string', required: true},
-    cat_ID : { type: mongoose.Schema.Types.ObjectId, default: null ,required: true}
+    subcategoryName: {type: 'string', required: true},
+    subcategoryDescription: {type: 'string', required: true},
+    categoryId: {   type: mongoose.Schema.Types.ObjectId,default:null,ref:'categories' }
     
 })
-var subCategory = (module.exports = mongoose.model("subCategorie", userSchema));
+var subCategory = (module.exports = mongoose.model("subCategorie", subCatSchema));
+   
+
+
+  
+ 

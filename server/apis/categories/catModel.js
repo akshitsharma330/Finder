@@ -1,7 +1,10 @@
-var mongoose = require('mogoose');
-var catSchema = mongoose.Schema({
-    name : {type: 'string', required: true},
-    description : {type: 'string', required: true}
-    
+const mongoose=require('mongoose')
+const categorySchema=mongoose.Schema({
+    categoryId:{type:Number,default:0},
+    categoryName:{type:String,default:""},
+    categoryDescription:{type:String,default:""},
+
+   isblocked:{type:Boolean,default:false},
+
 })
-var category = (module.exports = mongoose.model("categorie", userSchema));
+var cate=module.exports=mongoose.model('cate',categorySchema)
