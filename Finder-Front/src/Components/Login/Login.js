@@ -1,5 +1,70 @@
-import {Link} from 'react-router-dom';
+import { Link } from "react-router-dom";
+import { useState } from "react";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import qs from "qs";
+import "react-toastify/dist/ReactToastify.css";
 export default function Login() {
+  let [email, setEmail] = useState("");
+  const saveEmail = (e) => {
+    setEmail(e.target.value);
+  };
+  let [password, setPassword] = useState("");
+  const savePassword = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const dangerNotify =(data) =>{
+    toast.error(data, {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme : "colored"
+      });
+  }
+
+  const successNotify = () => {
+    toast.success("Login Succesfully!", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme : "colored"
+      });
+  };
+
+  const Login = (e) => {
+    e.preventDefault();
+    // console.log(email, password);
+    
+    let postData = {
+      email: email,
+      password: password,
+    };
+    axios
+      .post("http://localhost:8080/login", qs.stringify(postData), {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      })
+      .then((data) => {
+        console.log(data);
+        (data.data.success?successNotify():(dangerNotify(data.data.message)))
+      });
+  };
+  const test = () => {
+    // console.log(data)
+    successNotify();
+    dangerNotify();
+  };
+
   return (
     <>
       <section className="login py-5 border-top-1">
@@ -8,27 +73,27 @@ export default function Login() {
             <div className="col-lg-5 col-md-8 align-item-center">
               <div className="border">
                 <h3 className="bg-gray p-4">Login Now</h3>
-                <form action="#">
+                <form action="">
                   <fieldset className="p-4">
                     <input
                       type="text"
-                      placeholder="Username"
+                      placeholder="Enter Email"
                       className="border p-3 w-100 my-2"
+                      value={email}
+                      onChange={saveEmail}
                     />
                     <input
                       type="password"
-                      placeholder="Password"
+                      placeholder="Enter Password"
                       className="border p-3 w-100 my-2"
+                      value={password}
+                      onChange={savePassword}
                     />
-                    <div className="loggedin-forgot">
-                      <input type="checkbox" id="keep-me-logged-in" />
-                      <label for="keep-me-logged-in" className="pt-3 pb-2">
-                        Keep me logged in
-                      </label>
-                    </div>
+
                     <button
                       type="submit"
                       className="d-block py-3 px-5 bg-primary text-white border-0 rounded font-weight-bold mt-3"
+                      onClick={Login}
                     >
                       Log in
                     </button>
@@ -48,6 +113,7 @@ export default function Login() {
           </div>
         </div>
       </section>
-    </>
+      <ToastContainer />
+      </>
   );
 }

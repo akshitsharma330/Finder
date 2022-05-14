@@ -4,6 +4,8 @@ const userRoutes = require("./server/routes/userRoutes");
 const adminRoutes = require('./server/routes/adminRoutes')
 const seed = require('./server/config/seed')
 const db = require("./server/config/db");
+const cors = require("cors");
+app.use(cors());
 seed.insertUser()
 // to handle the request body parse into post method
 app.use(express.urlencoded({ extended: false }));
