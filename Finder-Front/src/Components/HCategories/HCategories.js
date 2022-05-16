@@ -3,9 +3,9 @@ export default function HCategories() {
     <>
       <section className=" section">
         {/* <!-- Container Start --> */}
-        <div className="container">
-          <div className="row">
-            <div className="col-12">
+        <div className="container-fluid">
+          <div className="row justify-content-center">
+            <div className="col-10">
               {/* <!-- Section title --> */}
               <div className="section-title">
                 <h2>All Categories</h2>

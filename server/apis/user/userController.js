@@ -89,7 +89,6 @@ exports.register = (req, res) => {
     req.body.name == "" ||
     req.body.email == undefined ||
     req.body.email == "" ||
-    req == undefined ||
     req.body.password == undefined ||
     req.body.password == ""
   ) {
@@ -127,17 +126,20 @@ exports.register = (req, res) => {
         uinfoObj
           .save()
           .then((uobj) => {
+            // console.log(uobj_)
             let userObj = new userModel();
             userObj.name = req.body.name;
-            userObj.userId = uobj._id;
-            userObj.password = req.body.name;
+            userObj.user_Id = uobj._id;
+            let pass = bcrypt.hashSync(req.body.password, salts);
+
+            userObj.password = pass;
             userObj.email = req.body.email;
             // userObj.tags = req.body.
             userObj
               .save()
               .then((data) => {
                 res.json({
-                  msg: "user Added",
+                  msg: "Registered",
                   status: 200,
                   success: true,
                   user: uobj,
@@ -150,6 +152,7 @@ exports.register = (req, res) => {
                   success: false,
                   error: String(err),
                 });
+              
               });
           })
           .catch((err) => {
@@ -174,7 +177,7 @@ exports.login = (req, res) => {
     req.body.password == ""
   ) {
     res.json({
-      message: "Enter Email and Password",
+      msg: "Enter Email and Password",
       status: 200,
       success: false,
     });
@@ -184,21 +187,21 @@ exports.login = (req, res) => {
       .then((uObj) => {
         if (uObj == null) {
           res.json({
-            message: "Account not found",
+            msg: "Account not found",
             status: 200,
             success: false,
           });
         } else {
           if (uObj.isBlocked == true) {
             res.json({
-              message: "Account blocked",
+              msg: "Account blocked",
               status: 200,
               success: false,
             });
           } else {
             if (!bcrypt.compareSync(req.body.password, uObj.password)) {
               res.json({
-                message: "Email-Password Not Match",
+                msg: "Email-Password Not Match",
                 status: 400,
                 sucess: false,
               });
@@ -214,7 +217,7 @@ exports.login = (req, res) => {
                 expiresIn: 60 * 60 * 24 * 365,
               });
               res.json({
-                message: "Login Successfull",
+                msg: "Login Successfull",
                 status: 200,
                 success: true,
                 token: token,
@@ -226,7 +229,7 @@ exports.login = (req, res) => {
       .catch((err) => {
         console.log(err);
         res.json({
-          message: "Error Login API",
+          msg: "Error Login API",
           status: 500,
           success: false,
           err: String(err),

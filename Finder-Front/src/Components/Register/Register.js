@@ -2,6 +2,8 @@ import axios from "axios";
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import qs from "qs";
+import "react-toastify/dist/ReactToastify.css";
+
 export default function Register() {
   let [name, setName] = useState("");
   const saveName = (e) => {
@@ -34,10 +36,8 @@ export default function Register() {
     setCity(e.target.value);
   };
 
-  let [tc, setTc] = useState("");
-  const saveTc = (e) => {
-    setTc(e.target.value);
-  };
+  let [tc, setTc] = useState("false");
+
   let [gender, setGender] = useState("");
   const saveGender = (e) => {
     setGender(e.target.value);
@@ -46,6 +46,37 @@ export default function Register() {
   let [img, setImg] = useState("");
   const saveImg = (e) => {
     setImg(e.target.value);
+  };
+
+  function validation(data) {
+    if (data.name === undefined || data.name === "") {
+    }
+  }
+
+  const dangerNotify = (data) => {
+    toast.error(data, {
+      position: "top-right",
+      autoClose: 4000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
+  };
+
+  const successNotify = () => {
+    toast.success("Reggistered", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
   };
 
   function register(e) {
@@ -58,7 +89,29 @@ export default function Register() {
       state: state,
       city: city,
       img: img,
+      gender: gender.target.value,
     };
+    if (tc === "false") {
+      dangerNotify("Must check to Terms & Conditions");
+    } else {
+      if (password === Cpassword) {
+        console.log(postData);
+        axios
+          .post("http://localhost:8080/register", qs.stringify(postData), {
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+          })
+          .then((data) => {
+            console.log(data);
+            data.data.success ? successNotify() : dangerNotify(data.data.msg);
+          })
+          .catch((erro) => console.log(erro));
+      }
+      else{
+        dangerNotify("Password and Confirm Password not match");
+      }
+    }
   }
 
   return (
@@ -67,12 +120,12 @@ export default function Register() {
         <div className="container">
           <div className="row justify-content-center">
             <div className="col-lg-6 col-md-8 align-item-center">
-              <div className="border border rounded">
+              <div className="border border rounded shadow ">
                 <h3 className="bg-gray p-4">Register Now</h3>
-                <form action="#" onSubmit={register}>
+                <form onSubmit={register}>
                   <fieldset className="p-4">
                     <input
-                    required 
+                      required
                       type="email"
                       placeholder="Email"
                       value={email}
@@ -98,7 +151,7 @@ export default function Register() {
                       value={password}
                       onChange={savePassword}
                       placeholder="Password"
-                      className="form-control border p-3 w-100 my-2"
+                      className="form-control border p-3 w-100 my-2 "
                     />
                     <input
                       type="password"
@@ -129,51 +182,72 @@ export default function Register() {
                       className="bform-control-file order p-3 w-100 my-2"
                     />
                     <div className="form-group pl-3">
-                    <div className="form-check form-check-inline ">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="gender"
-                        id="gendermale"
-                        value="Male"
-                      />
-                      <label className="form-check-label" htmlFor="gendermale">
-                        Male
-                      </label>
-                    </div>
-                    <div className="form-check form-check-inline">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="gender"
-                        id="genderfemale"
-                        value="Female"
-                      />
-                      <label className="form-check-label" htmlFor="genderfemale">
-                        Female
-                      </label>
-                    </div>
-                    <div className="form-check form-check-inline">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="gender"
-                        id="genderother"
-                        value="Others"
-                      />
-                      <label className="form-check-label" htmlFor="genderother">
-                        Others
-                      </label>
-                    </div>
+                      <div className="form-check form-check-inline ">
+                        <input
+                          className="form-check-input"
+                          type="radio"
+                          name="gender"
+                          id="gendermale"
+                          value="Male"
+                          onClick={setGender}
+                          required
+                        />
+                        <label
+                          className="form-check-label"
+                          htmlFor="gendermale"
+                        >
+                          Male
+                        </label>
+                      </div>
+                      <div className="form-check form-check-inline">
+                        <input
+                          className="form-check-input"
+                          type="radio"
+                          name="gender"
+                          id="genderfemale"
+                          value="Female"
+                          onClick={setGender}
+                          required
+                        />
+                        <label
+                          className="form-check-label"
+                          htmlFor="genderfemale"
+                        >
+                          Female
+                        </label>
+                      </div>
+                      <div className="form-check form-check-inline">
+                        <input
+                          className="form-check-input"
+                          type="radio"
+                          name="gender"
+                          id="genderother"
+                          value="Others"
+                          onClick={setGender}
+                          required
+                        />
+                        <label
+                          className="form-check-label"
+                          htmlFor="genderother"
+                        >
+                          Others
+                        </label>
+                      </div>
                     </div>
 
                     <div className="loggedin-forgot d-inline-flex my-3">
                       <input
                         type="checkbox"
-                        value={tc}
+                        value="True"
                         id="registering"
                         className="mt-1"
-                        onChange={saveTc}
+                        onClick={() => {
+                          if (tc === "true") {
+                            setTc("false");
+                          } else {
+                            setTc("true");
+                          }
+                        }}
                       />
                       <label htmlFor="registering" className="px-2">
                         By registering, you accept our{" "}
@@ -187,7 +261,6 @@ export default function Register() {
                     </div>
                     <button
                       type="submit"
-                      onClick={register}
                       className="d-block py-3 px-4 bg-primary text-white form-control border-0 rounded font-weight-bold"
                     >
                       Register Now
@@ -199,6 +272,7 @@ export default function Register() {
           </div>
         </div>
       </section>
+      <ToastContainer />
     </>
   );
 }

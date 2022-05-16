@@ -4,4 +4,4 @@ var catSchema = mongoose.Schema({
     description : {type: 'string', required: true}
     
 })
-var category = (module.exports = mongoose.model("categorie", userSchema));
+var category = (module.exports = mongoose.model("categorie", catSchema));

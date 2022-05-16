@@ -72,28 +72,28 @@ export default function Login() {
         <div className="container">
           <div className="row justify-content-center">
             <div className="col-lg-5 col-md-8 align-item-center">
-              <div className="border">
+              <div className="border shadow">
                 <h3 className="bg-gray p-4">Login Now</h3>
                 <form action="">
                   <fieldset className="p-4">
                     <input
                       type="text"
                       placeholder="Enter Email"
-                      className="border p-3 w-100 my-2"
+                      className="form-control border p-3 w-100 my-2"
                       value={email}
                       onChange={saveEmail}
                     />
                     <input
                       type="password"
                       placeholder="Enter Password"
-                      className="border p-3 w-100 my-2"
+                      className="form-control border p-3 w-100 my-2"
                       value={password}
                       onChange={savePassword}
                     />
 
                     <button
                       type="submit"
-                      className="d-block py-3 px-5 bg-primary text-white border-0 rounded font-weight-bold mt-3"
+                      className="form-control d-block py-3 px-5 bg-primary text-white border-0 rounded font-weight-bold mt-3"
                       onClick={Login}
                     >
                       Log in
