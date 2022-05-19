@@ -1,20 +1,27 @@
+import { Navigate } from "react-router-dom";
+import {isLoggedin} from "../../Common/constants";
 export default function AdPost() {
+
+  if(isLoggedin===false){
+    <Navigate to="login"/>
+  }
   return (
     <>
       <section className="ad-post bg-gray py-5">
         <div className="container">
-          <form action="#">
-            {/* <!-- Post Your ad start --> */}
-            <fieldset className="border border-gary p-4 mb-5">
+          <form action="#" >
+          
+            <fieldset className="border rounded shadow p-4 mb-5 bg-white">
               <div className="row">
                 <div className="col-lg-12">
                   <h3>Post Your ad</h3>
                 </div>
+                
                 <div className="col-lg-6">
                   <h6 className="font-weight-bold pt-4 pb-1">Title Of Ad:</h6>
                   <input
                     type="text"
-                    className="border w-100 p-2 bg-white text-capitalize"
+                    className=" border w-100 rounded form-control   text-capitalize"
                     placeholder="Ad title go There"
                   />
                   <h6 className="font-weight-bold pt-4 pb-1">Ad Type:</h6>
@@ -23,22 +30,22 @@ export default function AdPost() {
                       <input
                         type="radio"
                         name="itemName"
-                        value="personal"
-                        id="personal"
+                        value="new"
+                        id="new"
                       />
-                      <label for="personal" className="py-2">
-                        Personal
+                      <label for="new" className="py-2 px-2">
+                        New
                       </label>
                     </div>
                     <div className="col-lg-4 mr-lg-4 my-2 rounded bg-white ">
                       <input
                         type="radio"
                         name="itemName"
-                        value="business"
-                        id="business"
+                        value="used"
+                        id="used"
                       />
-                      <label for="business" className="py-2">
-                        Business
+                      <label for="used" className="py-2 px-2">
+                        Used
                       </label>
                     </div>
                   </div>
@@ -55,7 +62,7 @@ export default function AdPost() {
                   <h6 className="font-weight-bold pt-4 pb-1">
                     Select Ad Category:
                   </h6>
-                  <select name="" id="inputGroupSelect" className="w-100">
+                  <select name="" id="inputGroupSelect" className=" p-2 w-100">
                     <option value="1">Select category</option>
                     <option value="2">Laptops</option>
                     <option value="3">iphone</option>
@@ -69,7 +76,7 @@ export default function AdPost() {
                   </select>
                   <div className="price">
                     <h6 className="font-weight-bold pt-4 pb-1">
-                      Item Price ($ USD):
+                      Item Price :
                     </h6>
                     <div className="row px-3">
                       <div className="col-lg-4 mr-lg-4 rounded bg-white my-2 ">

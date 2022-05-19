@@ -5,6 +5,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import qs from "qs";
 import "react-toastify/dist/ReactToastify.css";
+import {isLoggedin} from "../../Common/constants";
 export default function Login() {
   let [email, setEmail] = useState("");
   const saveEmail = (e) => {
@@ -58,6 +59,7 @@ export default function Login() {
       .then((data) => {
         console.log(data);
         (data.data.success?successNotify():(dangerNotify(data.data.msg)))
+        (data.data.success?isLoggedin=true:isLoggedin=false)
       })
       .catch(err=>{
         console.log(err);

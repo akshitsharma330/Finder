@@ -2,8 +2,6 @@
 
 # dependencies
 /node_modules
-/Finder-Front/node_modules
-/admin-front/node_modules
 /.pnp
 .pnp.js
 

@@ -1,6 +1,6 @@
 
 
 
+const isLoggedin= false;
 
-
-export {}
+export {isLoggedin}

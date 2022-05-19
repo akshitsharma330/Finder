@@ -5,10 +5,10 @@ router.get("/", (req, res) => {
   res.send("Welcome to USERS");
 });
 
+router.post("/register",userController.register)
 
 router.post('/login',userController.login)
 // router.use(require('../common/usermiddleware'))
 router.post("/addPost",postController.addPost)
-router.post("/register",userController.register)
 
 module.exports = router;
