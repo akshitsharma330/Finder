@@ -1,9 +1,6 @@
-import logo from "./logo.svg";
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Navbar from "./Components/Navbar/Navbar";
 import Home from "./Components/Home/Home";
-import Footer from "./Components/Footer/Footer";
 import ContactUs from "./Components/ContactUs/ContactUs";
 import About from "./Components/About/About";
 import AdPost from "./Components/AdPost/AdPost";
