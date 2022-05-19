@@ -11,8 +11,7 @@ import Dashboard from "./Components/Dashboard/Dashboard";
 import UserMaster from "./Components/UserMaster/UserMaster";
 import Login from "./Components/Login/Login";
 import Register from "./Components/Register/Register";
-import NavBar from "./Admin/Components/NavBar/NavBar";
-import SideNav from "./Admin/Components/SideNav/SideNav";
+
 
 import AdView from "./Components/AdView/AdView";
 function App() {
@@ -30,7 +29,6 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/Register" element={<Register />} />
           </Route>
-          <Route path="/admin" element={<SideNav/>} />
         </Routes>
       </BrowserRouter>
     </>
