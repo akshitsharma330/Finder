@@ -9,7 +9,7 @@ exports.addPost = (req, res) => {
     req.body.description == ""
   ) {
     res.json({
-      msg: "Please fill the form",
+      message: "Please fill the form",
       status: 204,
       success: false,
     });
@@ -30,7 +30,7 @@ exports.addPost = (req, res) => {
       .save()
       .then((data) => {
         res.json({
-          msg: "Post Added",
+          message: "Post Added",
           status: 200,
           success: true,
           post: data,
@@ -38,7 +38,7 @@ exports.addPost = (req, res) => {
       })
       .catch((err) => {
         res.json({
-          msg: "Error while adding",
+          message: "Error while adding",
           status: 500,
           success: false,
           error: String(err),

@@ -11,7 +11,7 @@ exports.showuser = (req, res) => {
     .find()
     .then((data) => {
       res.json({
-        msg: "All Users",
+        message: "All Users",
         status: 200,
         success: true,
         student: data,
@@ -19,7 +19,7 @@ exports.showuser = (req, res) => {
     })
     .catch((err) => {
       res.json({
-        msg: "Error in API",
+        message: "Error in API",
         status: 500,
         success: false,
         error: String(err),

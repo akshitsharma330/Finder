@@ -15,7 +15,7 @@ exports.addUser = (req, res) => {
     req.body.email == ""
   ) {
     res.json({
-      msg: "Please fill the form",
+      message: "Please fill the form",
       satus: 204,
       success: false,
     });
@@ -26,7 +26,7 @@ exports.addUser = (req, res) => {
       .then((data) => {
         if (data != null) {
           res.json({
-            msg: "User already exists",
+            message: "User already exists",
             satus: 200,
             success: false,
           });
@@ -53,7 +53,7 @@ exports.addUser = (req, res) => {
                 .save()
                 .then((data) => {
                   res.json({
-                    msg: "user Added",
+                    message: "user Added",
                     status: 200,
                     success: true,
                     user: uobj,
@@ -61,7 +61,7 @@ exports.addUser = (req, res) => {
                 })
                 .catch((err) => {
                   res.json({
-                    msg: "Error while adding",
+                    message: "Error while adding",
                     status: 500,
                     success: false,
                     error: String(err),
@@ -70,7 +70,7 @@ exports.addUser = (req, res) => {
             })
             .catch((err) => {
               res.json({
-                msg: "Error while adding",
+                message: "Error while adding",
                 status: 500,
                 success: false,
                 error: String(err),
@@ -93,7 +93,7 @@ exports.register = (req, res) => {
     req.body.password == ""
   ) {
     res.json({
-      msg: "Please fill the form",
+      message: "Please fill the form",
       satus: 204,
       success: false,
     });
@@ -102,13 +102,13 @@ exports.register = (req, res) => {
       if (udata != null) {
         if (udata.isBlocked == true) {
           res.json({
-            msg: "blocked",
+            message: "blocked",
             satus: 204,
             success: false,
           });
         } else {
           res.json({
-            msg: "User already exists",
+            message: "User already exists",
             satus: 200,
             success: false,
           });
@@ -139,7 +139,7 @@ exports.register = (req, res) => {
               .save()
               .then((data) => {
                 res.json({
-                  msg: "Registered",
+                  message: "Registered",
                   status: 200,
                   success: true,
                   user: uobj,
@@ -147,7 +147,7 @@ exports.register = (req, res) => {
               })
               .catch((err) => {
                 res.json({
-                  msg: "Error while adding",
+                  message: "Error while adding",
                   status: 500,
                   success: false,
                   error: String(err),
@@ -157,7 +157,7 @@ exports.register = (req, res) => {
           })
           .catch((err) => {
             res.json({
-              msg: "Error while adding",
+              message: "Error while adding",
               status: 500,
               success: false,
               error: String(err),
@@ -167,6 +167,9 @@ exports.register = (req, res) => {
     });
   }
 };
+exports.countUsers= (req, res) => {
+  
+}
 
 //Login Api
 exports.login = (req, res) => {
@@ -177,7 +180,7 @@ exports.login = (req, res) => {
     req.body.password == ""
   ) {
     res.json({
-      msg: "Enter Email and Password",
+      message: "Enter Email and Password",
       status: 200,
       success: false,
     });
@@ -187,21 +190,21 @@ exports.login = (req, res) => {
       .then((uObj) => {
         if (uObj == null) {
           res.json({
-            msg: "Account not found",
+            message: "Account not found",
             status: 200,
             success: false,
           });
         } else {
           if (uObj.isBlocked == true) {
             res.json({
-              msg: "Account blocked",
+              message: "Account blocked",
               status: 200,
               success: false,
             });
           } else {
             if (!bcrypt.compareSync(req.body.password, uObj.password)) {
               res.json({
-                msg: "Email-Password Not Match",
+                message: "Email-Password Not Match",
                 status: 400,
                 sucess: false,
               });
@@ -217,7 +220,7 @@ exports.login = (req, res) => {
                 expiresIn: 60 * 60 * 24 * 365,
               });
               res.json({
-                msg: "Login Successfull",
+                message: "Login Successfull",
                 status: 200,
                 success: true,
                 token: token,
@@ -229,7 +232,7 @@ exports.login = (req, res) => {
       .catch((err) => {
         console.log(err);
         res.json({
-          msg: "Error Login API",
+          message: "Error Login API",
           status: 500,
           success: false,
           err: String(err),

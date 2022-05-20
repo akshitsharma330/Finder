@@ -58,7 +58,7 @@ export default function Login() {
       })
       .then((data) => {
         console.log(data);
-        (data.data.success?successNotify():(dangerNotify(data.data.msg)))
+        (data.data.success?successNotify():(dangerNotify(data.data.message)))
         (data.data.success?isLoggedin=true:isLoggedin=false)
       })
       .catch(err=>{
