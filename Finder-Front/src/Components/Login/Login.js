@@ -5,7 +5,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import qs from "qs";
 import "react-toastify/dist/ReactToastify.css";
-import {isLoggedin} from "../../Common/constants";
+import { isLoggedin } from "../../Common/constants";
 export default function Login() {
   let [email, setEmail] = useState("");
   const saveEmail = (e) => {
@@ -16,7 +16,7 @@ export default function Login() {
     setPassword(e.target.value);
   };
 
-  const dangerNotify =(data) =>{
+  const dangerNotify = (data) => {
     toast.error(data, {
       position: "top-right",
       autoClose: 3000,
@@ -25,9 +25,9 @@ export default function Login() {
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
-      theme : "colored"
-      });
-  }
+      theme: "colored",
+    });
+  };
 
   const successNotify = () => {
     toast.success("Login Succesfully!", {
@@ -38,14 +38,14 @@ export default function Login() {
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
-      theme : "colored"
-      });
+      theme: "colored",
+    });
   };
 
   const Login = (e) => {
     e.preventDefault();
     // console.log(email, password);
-    
+
     let postData = {
       email: email,
       password: password,
@@ -58,14 +58,14 @@ export default function Login() {
       })
       .then((data) => {
         console.log(data);
-        (data.data.success?successNotify():(dangerNotify(data.data.message)))
-        (data.data.success?isLoggedin=true:isLoggedin=false)
+        (data.data.success ? successNotify() : dangerNotify(data.data.message))(
+          
+        );
       })
-      .catch(err=>{
+      .catch((err) => {
         console.log(err);
-      })
+      });
   };
- 
 
   return (
     <>
@@ -116,6 +116,6 @@ export default function Login() {
         </div>
       </section>
       <ToastContainer />
-      </>
+    </>
   );
 }

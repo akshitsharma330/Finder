@@ -152,7 +152,6 @@ exports.register = (req, res) => {
                   success: false,
                   error: String(err),
                 });
-              
               });
           })
           .catch((err) => {
@@ -167,9 +166,7 @@ exports.register = (req, res) => {
     });
   }
 };
-exports.countUsers= (req, res) => {
-  
-}
+exports.countUsers = (req, res) => {};
 
 //Login Api
 exports.login = (req, res) => {
@@ -240,6 +237,96 @@ exports.login = (req, res) => {
       });
   }
 };
+//Login API for Admin
+exports.AdminLogin = (req, res) => {
+  if (
+    req.body.email == undefined ||
+    req.body.email == "" ||
+    req.body.password == undefined ||
+    req.body.password == ""
+  ) {
+    res.json({
+      message: "Enter Email and Password",
+      status: 200,
+      success: false,
+    });
+  } else {
+    userModel
+      .findOne({ email: req.body.email })
+      .then((uObj) => {
+        if (uObj == null) {
+          res.json({
+            message: "Account not found",
+            status: 200,
+            success: false,
+          });
+        } else {
+          if (uObj.isBlocked == true) {
+            res.json({
+              message: "Account blocked",
+              status: 200,
+              success: false,
+            });
+          } else {
+            if (!bcrypt.compareSync(req.body.password, uObj.password)) {
+              res.json({
+                message: "Email-Password Not Match",
+                status: 400,
+                sucess: false,
+              });
+            } else {
+              let payload = {
+                _id: uObj._id,
+                name: uObj.name,
+                email: uObj.email,
+                uType: uObj.uType,
+                user_Id: uObj.user_Id,
+              };
+              let token = jwt.sign(payload, SECRET, {
+                expiresIn: 60 * 60 * 24 * 365,
+              });
+              res.json({
+                message: "Login Successfull",
+                status: 200,
+                success: true,
+                token: token,
+              });
+            }
+          }
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        res.json({
+          message: "Error Login API",
+          status: 500,
+          success: false,
+          err: String(err),
+        });
+      });
+  }
+};
+//admin
 
+exports.countUsers = (req,res)=>{
+  userModel.countDocuments({"uType":0}).then((data)=>{
+    res.json({
+      message: "Count",
+      status: 200,
+      success: true,
+      count:data
+    })
+  })
+}
+exports.countAdmins = (req,res)=>{
+  userModel.countDocuments({"uType":1}).then((data)=>{
+    res.json({
+      message: "Count",
+      status: 200,
+      success: true,
+      count:data
+    })
+  })
+}
 //for admin
 exports.block = (req, res) => {};

@@ -2,7 +2,7 @@ const router = require('express').Router();
 
 const userController = require("../apis/user/userController");
 
-router.post('/login',userController.login)
+router.post('/login',userController.AdminLogin)
 router.use(require('../common/adminmiddleware'))
 
 

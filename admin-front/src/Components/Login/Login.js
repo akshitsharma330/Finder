@@ -4,6 +4,7 @@ import axios from "axios";
 import qs from "qs";
 import { ToastContainer, toast } from "react-toastify";
 import { BaseURLAdmin } from "../../Config/Constants";
+import "react-toastify/dist/ReactToastify.css";
 
 export default class Login extends Component {
   constructor(props) {
@@ -11,9 +12,17 @@ export default class Login extends Component {
     this.state = {
       email: "",
       password: "",
+      showPass: false,
       move: false,
     };
   }
+
+  togglePass=()=>{
+    this.setState({
+      showPass:!this.state.showPass
+    })
+  }
+
   emailSave = (e) => {
     this.setState({
       email: e.target.value,
@@ -26,6 +35,32 @@ export default class Login extends Component {
     });
   };
 
+  dangerNotify = (data) => {
+    toast.error(data, {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
+  };
+
+  successNotify = () => {
+    toast.success("Login Succesfully!", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
+  };
+
   submit = (e) => {
     e.preventDefault();
     let data = {
@@ -33,40 +68,28 @@ export default class Login extends Component {
       password: this.state.password,
     };
     console.log(data);
-    let url = `${BaseURLAdmin}/admin/login`;
+    let url = `${BaseURLAdmin}/login`;
     axios
       .post(url, qs.stringify(data), {
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
       })
       .then((data) => {
-        if (data.success) {
-          let token = data.token;
+        console.log(data);
+        if(data.data.success){
+          // this.successNotify();
+          let token = data.data.token;
           sessionStorage.setItem("token", token);
           sessionStorage.setItem("isLoggedIn", true);
-          this.setState({ move: true });
-          console.log(data);
-          toast.success(data.data.message, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
-        } else {
-          console.log(data)
-          toast.error(data.data.message, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
+          this.setState({
+            move: true,
           });
         }
-      });
+        else{
+          this.dangerNotify(data.data.message);
+        }
+       
+      })
+      .catch((err) => console.log(err));
   };
 
   render() {
@@ -95,7 +118,7 @@ export default class Login extends Component {
                               type="email"
                               value={this.state.email}
                               onChange={this.emailSave}
-                              class="form-control form-control-user text-center"
+                              class="form-control form-control-user "
                               id="exampleInputEmail"
                               aria-describedby="emailHelp"
                               placeholder="Email"
@@ -104,15 +127,16 @@ export default class Login extends Component {
                           </div>
                           <div class="form-group">
                             <input
-                              type="password"
+                              style={{"display":"inline"}}
+                              type={this.state.showPass ? "text" : "password"}
                               value={this.state.password}
                               onChange={this.passwordSave}
-
-                              class="form-control form-control-user text-center"
+                              class="form-control form-control-user"
                               id="exampleInputPassword"
                               placeholder="Password"
                               required
                             />
+                            <i class={this.state.showPass ? "fas fa-eye-slash" : "fas fa-eye"} onClick={this.togglePass} style={{"display":"inline", "position":"relative","float":"left","left":"233px", "bottom":"34px" }}></i>
                           </div>
                           <div class="form-group">
                             <div class="custom-control custom-checkbox small">
