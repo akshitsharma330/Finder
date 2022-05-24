@@ -327,6 +327,39 @@ exports.countAdmins = (req,res)=>{
       count:data
     })
   })
+  
 }
-//for admin
-exports.block = (req, res) => {};
+
+exports.countBlockedUsers = (req,res)=>{
+  userModel.countDocuments({"isBlocked":true}).then((data)=>{
+    res.json({
+      message: "Count",
+      status: 200,
+      success: true,
+      count:data
+    })
+  })
+  
+}
+
+
+
+//list Users
+exports.listUsers = (req,res)=>{
+  userModel.find({"uType":0}).populate('user_Id').then((data)=>{
+    res.json({
+      message: "Users List",
+      status: 200,
+      success: true,
+      users: data
+    })
+  })
+
+  .catch(err=>
+    res.json({
+      message: "Error",
+      status:200,
+      success: false
+    }
+      ))
+}

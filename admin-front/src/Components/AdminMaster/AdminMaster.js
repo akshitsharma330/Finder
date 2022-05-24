@@ -12,9 +12,9 @@ export default class AdminMaster extends Component {
             id="accordionSidebar"
           >
             {/* <!-- Sidebar - Brand --> */}
-            <a
+            <Link
               className="sidebar-brand d-flex align-items-center justify-content-center"
-              href="index.html"
+              to="/"
             >
               <div className="sidebar-brand-icon rotate-n-15">
                 <i className="fas fa-laugh-wink"></i>
@@ -22,17 +22,17 @@ export default class AdminMaster extends Component {
               <div className="sidebar-brand-text mx-3">
                 Finder-Admin
               </div>
-            </a>
+            </Link>
 
             {/* <!-- Divider --> */}
             <hr className="sidebar-divider my-0" />
 
             {/* <!-- Nav Item - Dashboard --> */}
             <li className="nav-item active">
-              <a className="nav-link" href="index.html">
+              <Link className="nav-link" to="/">
                 <i className="fas fa-fw fa-tachometer-alt"></i>
                 <span>Dashboard</span>
-              </a>
+              </Link>
             </li>
 
             {/* <!-- Divider --> */}
