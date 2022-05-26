@@ -51,8 +51,8 @@ export default class App extends Component {
         },
       })
       .then((data) => {
-        console.log(token); 
-        console.log(data);
+        // console.log(token); 
+        // console.log(data);
         this.setState({
           userCount: data.data.count,
         });
@@ -69,8 +69,8 @@ export default class App extends Component {
         },
       })
       .then((data) => {
-        console.log(token);
-        console.log(data);
+        // console.log(token);
+        // console.log(data);
         this.setState({
           adminCount: data.data.count,
         });

@@ -227,7 +227,7 @@ exports.login = (req, res) => {
         }
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
         res.json({
           message: "Error Login API",
           status: 500,
@@ -296,7 +296,7 @@ exports.AdminLogin = (req, res) => {
         }
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
         res.json({
           message: "Error Login API",
           status: 500,
@@ -308,58 +308,103 @@ exports.AdminLogin = (req, res) => {
 };
 //admin
 
-exports.countUsers = (req,res)=>{
-  userModel.countDocuments({"uType":0}).then((data)=>{
+exports.countUsers = (req, res) => {
+  userModel.countDocuments({ uType: 0 }).then((data) => {
     res.json({
       message: "Count",
       status: 200,
       success: true,
-      count:data
-    })
-  })
-}
-exports.countAdmins = (req,res)=>{
-  userModel.countDocuments({"uType":1}).then((data)=>{
+      count: data,
+    });
+  });
+};
+exports.countAdmins = (req, res) => {
+  userModel.countDocuments({ uType: 1 }).then((data) => {
     res.json({
       message: "Count",
       status: 200,
       success: true,
-      count:data
-    })
-  })
-  
-}
+      count: data,
+    });
+  });
+};
 
-exports.countBlockedUsers = (req,res)=>{
-  userModel.countDocuments({"isBlocked":true}).then((data)=>{
+exports.countBlockedUsers = (req, res) => {
+  userModel.countDocuments({ isBlocked: true }).then((data) => {
     res.json({
       message: "Count",
       status: 200,
       success: true,
-      count:data
-    })
-  })
-  
-}
-
-
+      count: data,
+    });
+  });
+};
+//deleter user by admin
+exports.deleteUser = (req, res) => {
+  userModel.deleteOne({ '_id': req.body.Id}).then((data) => {
+    // console.log(data);
+    uinfoModel
+      .deleteOne({ _id: req.body.uinfoId })
+      .then((data) => {
+        res.json({
+          message: "User Deleted",
+          status: 200,
+          success: true,
+        });
+      })
+      .catch((err) => {
+        res.json({
+          message: "Error while deleting",
+          status: 500,
+          success: false,
+          error: String(err),
+        });
+      });
+  });
+};
 
 //list Users
-exports.listUsers = (req,res)=>{
-  userModel.find({"uType":0}).populate('user_Id').then((data)=>{
-    res.json({
-      message: "Users List",
-      status: 200,
-      success: true,
-      users: data
+exports.listUsers = (req, res) => {
+  userModel
+    .find({ uType: 0 })
+    .populate("user_Id")
+    .then((data) => {
+      res.json({
+        message: "Users List",
+        status: 200,
+        success: true,
+        users: data,
+      });
     })
-  })
 
-  .catch(err=>
-    res.json({
-      message: "Error",
-      status:200,
-      success: false
-    }
-      ))
+    .catch((err) =>
+      res.json({
+        message: "Error",
+        status: 200,
+        success: false,
+      })
+    );
+};
+
+
+//list BBlocked Users
+exports.listBlockedUsers = (req, res) => {
+  userModel
+    .find({ isBlocked: true })
+    .then((data) => {
+      res.json({
+        message: "Users List",
+        status: 200,
+        success: true,
+        users: data,
+      });
+    })
+
+    .catch((err) =>
+      res.json({
+        message: "Error",
+        status: 200,
+        success: false,
+      })
+    );
 }

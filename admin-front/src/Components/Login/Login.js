@@ -67,14 +67,14 @@ export default class Login extends Component {
       email: this.state.email,
       password: this.state.password,
     };
-    console.log(data);
+    // console.log(data);
     let url = `${BaseURLAdmin}/login`;
     axios
       .post(url, qs.stringify(data), {
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
       })
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         if(data.data.success){
           // this.successNotify();
           let token = data.data.token;
@@ -89,11 +89,11 @@ export default class Login extends Component {
         }
        
       })
-      .catch((err) => console.log(err));
+      // .catch((err) => console.log(err));
   };
 
   render() {
-    if (this.state.move) {
+    if (this.state.move || sessionStorage.getItem("isLoggedIn")) {
       return <Navigate to="/" />;
     }
     return (
