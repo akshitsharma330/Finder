@@ -35,7 +35,8 @@ exports.addUser = (req, res) => {
           uinfoObj.name = req.body.name;
           uinfoObj.email = req.body.email;
           uinfoObj.gender = req.body.gender;
-          uinfoObj.number = req.body.number;
+          uinfoObj.number = req.body.phone;
+          
           uinfoObj.state = req.body.state;
           uinfoObj.city = req.body.city;
           // uinfoObj.tags = req.body.gender;
@@ -341,8 +342,9 @@ exports.countBlockedUsers = (req, res) => {
 };
 //deleter user by admin
 exports.deleteUser = (req, res) => {
-  userModel.deleteOne({ '_id': req.body.Id}).then((data) => {
-    // console.log(data);
+  userModel.deleteOne({ '_id': req.body.userId}).then((data) => {
+    console.log(req.body.userId);
+    console.log(data);
     uinfoModel
       .deleteOne({ _id: req.body.uinfoId })
       .then((data) => {

@@ -22,9 +22,9 @@ export default function Register() {
   const saveCpassword = (e) => {
     setCpassword(e.target.value);
   };
-  let [phone, setPhone] = useState("");
-  const savePhone = (e) => {
-    setPhone(e.target.value);
+  let [number, setNumber] = useState("");
+  const saveNumber = (e) => {
+    setNumber(e.target.value);
   };
   let [state, setState] = useState("");
   const saveState = (e) => {
@@ -85,7 +85,7 @@ export default function Register() {
       name: name,
       email: email,
       password: password,
-      phone: phone,
+      number: number,
       state: state,
       city: city,
       img: img,
@@ -104,7 +104,7 @@ export default function Register() {
           })
           .then((data) => {
             console.log(data);
-            data.data.success ? successNotify() : dangerNotify(data.data.msg);
+            data.data.success ? successNotify() : dangerNotify(data.data.message);
           })
           .catch((erro) => console.log(erro));
       }
@@ -137,12 +137,12 @@ export default function Register() {
                       placeholder="Name"
                       value={name}
                       onChange={saveName}
-                      className="form-control border p-3 w-100 my-2 roundede"
+                      className="form-control border p-3 w-100 my-2 rounded"
                     />
                     <input
-                      type="tel"
-                      value={phone}
-                      onChange={savePhone}
+                      type="number"
+                      value={number}
+                      onChange={saveNumber}
                       placeholder="Phone"
                       className="form-control border p-3 w-100 my-2"
                     />
