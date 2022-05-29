@@ -5,82 +5,7 @@ const jwt = require("jsonwebtoken");
 const userModel = require("./userModel");
 const salts = 10;
 const SECRET = "finder";
-//for admin
-exports.addUser = (req, res) => {
-  if (
-    req.body == undefined ||
-    req.body.name == undefined ||
-    req.body.name == "" ||
-    req.body.email == undefined ||
-    req.body.email == ""
-  ) {
-    res.json({
-      message: "Please fill the form",
-      satus: 204,
-      success: false,
-    });
-  } else {
-    userModel
-      .findOne({ email: req.body.email })
-      .exec()
-      .then((data) => {
-        if (data != null) {
-          res.json({
-            message: "User already exists",
-            satus: 200,
-            success: false,
-          });
-        } else {
-          let uinfoObj = new uinfoModel();
-          uinfoObj.name = req.body.name;
-          uinfoObj.email = req.body.email;
-          uinfoObj.gender = req.body.gender;
-          uinfoObj.number = req.body.phone;
-          
-          uinfoObj.state = req.body.state;
-          uinfoObj.city = req.body.city;
-          // uinfoObj.tags = req.body.gender;
 
-          uinfoObj
-            .save()
-            .then((uobj) => {
-              let userObj = new userModel();
-              userObj.name = req.body.name;
-              userObj.userId = uobj._id;
-              userObj.password = req.body.name;
-              userObj.email = req.body.email;
-              // userObj.tags = req.body.
-              userObj
-                .save()
-                .then((data) => {
-                  res.json({
-                    message: "user Added",
-                    status: 200,
-                    success: true,
-                    user: uobj,
-                  });
-                })
-                .catch((err) => {
-                  res.json({
-                    message: "Error while adding",
-                    status: 500,
-                    success: false,
-                    error: String(err),
-                  });
-                });
-            })
-            .catch((err) => {
-              res.json({
-                message: "Error while adding",
-                status: 500,
-                success: false,
-                error: String(err),
-              });
-            });
-        }
-      });
-  }
-};
 
 //for user
 exports.register = (req, res) => {
@@ -109,7 +34,7 @@ exports.register = (req, res) => {
           });
         } else {
           res.json({
-            message: "User already exists",
+            message: "User already exists with this email or phone",
             satus: 200,
             success: false,
           });
@@ -342,9 +267,7 @@ exports.countBlockedUsers = (req, res) => {
 };
 //deleter user by admin
 exports.deleteUser = (req, res) => {
-  userModel.deleteOne({ '_id': req.body.userId}).then((data) => {
-    console.log(req.body.userId);
-    console.log(data);
+  userModel.deleteOne({ _id: req.body.userId }).then((data) => {
     uinfoModel
       .deleteOne({ _id: req.body.uinfoId })
       .then((data) => {
@@ -387,15 +310,80 @@ exports.listUsers = (req, res) => {
       })
     );
 };
+//Block Users Admin
+exports.blockUser = (req, res) => {
+  userModel
+    .updateOne({ _id: req.body.userId }, { isBlocked: true })
+    .then((data) => {
+      uinfoModel
+        .updateOne({ _id: req.body.uinfoId }, { isBlocked: true })
+        .then((data) => {
+          res.json({
+            message: "User Blocked",
+            status: 200,
+            success: true,
+          });
 
+        })
+        .catch((err) => {
+          userModel.updateOne({ _id: req.body.uinfoId }, { isBlocked: false });
+          res.json({
+            message: "Error while Blocking user",
+            status: 500,
+            success: false,
+          })
+        })
+    })
+    .catch((err) => {
+      res.json({
+        message: "Error while Blocking user",
+        status: 500,
+        success: false,
+      })
+    })
+};
+
+//Unblock User Admin
+exports.unblockUser = (req, res) => {
+  userModel
+    .updateOne({ _id: req.body.userId }, { isBlocked: false })
+    .then((data) => {
+      uinfoModel
+        .updateOne({ _id: req.body.uinfoId }, { isBlocked: false })
+        .then((data) => {
+          res.json({
+            message: "User Un-Blocked",
+            status: 200,
+            success: true,
+          });
+
+        })
+        .catch((err) => {
+          userModel.updateOne({ _id: req.body.uinfoId }, { isBlocked: true });
+          res.json({
+            message: "Error while Un-Blocking user",
+            status: 500,
+            success: false,
+          })
+        })
+    })
+    .catch((err) => {
+      res.json({
+        message: "Error while Un-Blocking user",
+        status: 500,
+        success: false,
+      })
+    })
+};
 
 //list BBlocked Users
 exports.listBlockedUsers = (req, res) => {
   userModel
-    .find({ isBlocked: true })
+    .find({ isBlocked: true })    
+    .populate("user_Id")
     .then((data) => {
       res.json({
-        message: "Users List",
+        message: "Blocked Users List",
         status: 200,
         success: true,
         users: data,
@@ -409,4 +397,7 @@ exports.listBlockedUsers = (req, res) => {
         success: false,
       })
     );
-}
+};
+
+
+

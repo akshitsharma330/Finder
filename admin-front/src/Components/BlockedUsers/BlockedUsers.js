@@ -4,78 +4,15 @@ import { BaseURLAdmin } from "../../Config/Constants";
 import qs from "qs";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {Navigate} from "react-router-dom"
+import { Navigate } from "react-router-dom";
 
-export default class ListUsers extends Component {
+export default class BlockedUsers extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      users: [],
-      totalUsers: "",
-      
+      blockedUsers: [],
+      totalBlockedUsers: "",
     };
-    
-  }
-  //refresh List Function
-  refreshList= ()=>{
-    axios
-      .post(
-        `${BaseURLAdmin}/listUsers`,
-        {},
-        {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-            authorization: sessionStorage.getItem("token"),
-          },
-        }
-      )
-      .then((data) => {
-        console.log(data);
-        this.setState({ users: data.data.users });
-      });
-
-  }
-  //Block User Function
-  blockUser=(userId,uinfoId)=>{
-    let postData = {
-      userId: userId,
-      uinfoId: uinfoId,
-    }
-    axios.post(`${BaseURLAdmin}/blockUser`, qs.stringify(postData),{
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        authorization: sessionStorage.getItem("token"),
-      }
-    })
-    .then((data)=>{
-      if(data.data.success){
-      toast.success(data.data.message, {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
-      this.refreshList();
-    }
-    else{
-      toast.error(data.data.message, {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
-    }
-
-    })
-    
   }
   //unblock User Function
   unblockUser=(userId,uinfoId)=>{
@@ -118,12 +55,13 @@ export default class ListUsers extends Component {
 
     })
   }
+
   //delete User Function
   deleteUser = (userId, uinfoId) => {
-    let postData={
-      userId:userId,
-      uinfoId:uinfoId
-    }
+    let postData = {
+      userId: userId,
+      uinfoId: uinfoId,
+    };
     axios
       .post(`${BaseURLAdmin}/deleteUser`, qs.stringify(postData), {
         headers: {
@@ -132,7 +70,6 @@ export default class ListUsers extends Component {
         },
       })
       .then((data) => {
-        
         if (data.data.success) {
           toast.success(data.data.message, {
             position: "top-right",
@@ -145,7 +82,7 @@ export default class ListUsers extends Component {
             theme: "colored",
           });
           this.refreshList();
-          } else {
+        } else {
           toast.error(data.data.message, {
             position: "top-right",
             autoClose: 3000,
@@ -159,10 +96,10 @@ export default class ListUsers extends Component {
         }
       });
   };
-  componentDidMount() {
+  refreshList = () => {
     axios
       .post(
-        `${BaseURLAdmin}/listUsers`,
+        `${BaseURLAdmin}/listBlockedUsers`,
         {},
         {
           headers: {
@@ -173,12 +110,14 @@ export default class ListUsers extends Component {
       )
       .then((data) => {
         console.log(data);
-        this.setState({ users: data.data.users });
+        this.setState({ blockedUsers: data.data.users });
       });
-    
+  };
+
+  componentDidMount() {
     axios
       .post(
-        `${BaseURLAdmin}/countUsers`,
+        `${BaseURLAdmin}/listBlockedUsers`,
         {},
         {
           headers: {
@@ -188,31 +127,33 @@ export default class ListUsers extends Component {
         }
       )
       .then((data) => {
-        // console.log(data);
-        this.setState({ totalUsers: data.data.count });
+        console.log(data);
+        this.setState({ blockedUsers: data.data.users });
+        this.setState({ totalBlockedUsers: data.data.count });
       });
   }
-
   render() {
     return (
       <>
-        <ToastContainer   />
+        <ToastContainer />
         <div className="container-fluid">
           {/* <!-- Page Heading --> */}
-          <h1 className="h3 mb-2 text-gray-800">Users List</h1>
-
-          {/* <!-- DataTales Example --> */}
+          <h1 className="h3 mb-2 text-gray-800">Tables</h1>
           <div className="card shadow mb-4">
-            <div className="card-header py-3"></div>
+            <div className="card-header py-3">
+              <h6 className="m-0 font-weight-bold text-primary">
+                DataTables Example
+              </h6>
+            </div>
             <div className="card-body">
               <div className="table-responsive">
                 <table
-                  className="table table-bordered table-striped"
+                  className="table table-bordered"
                   id="dataTable"
                   width="100%"
-                  cellSpacing="0"
+                  cellpacing="0"
                 >
-                  <thead className="">
+                  <thead>
                     <tr>
                       <th>S.no</th>
                       <th>Name</th>
@@ -224,33 +165,31 @@ export default class ListUsers extends Component {
                       <th>Actions</th>
                     </tr>
                   </thead>
-
                   <tbody>
-                    {this.state.users.map((ele, index) => (
-                      <tr key={index + 1}>
-                        <td>{index + 1}</td>
-                        <td>{ele.user_Id.name}</td>
-                        <td>{ele.email}</td>
-                        <td>{ele.user_Id.number}</td>
-                        <td>{ele.adCount}</td>
-                        <td>{ele.isBlocked?"Blocked":"Active"}</td>
-                        <td>{ele.createdAt}</td>
-                        <td>
-                          <button
+                    {this.state.blockedUsers.map((user, index) => (
+                    <tr key={index+1}>
+                      <td>{index +1}</td>
+                      <td>{user.user_Id.name}</td>
+                      <td>{user.email}</td>
+                      <td>{user.user_Id.name}</td>
+                      <td>{user.adCount}</td>
+                      <td>{user.isBlocked?"Blocked":"Active"}</td>
+                      <td>{user.createdAt}</td> 
+                      <td>
+                      <button
                             className="btn btn-danger p-1 mx-1"
                             onClick={() => {
-                              this.deleteUser(ele._id, ele.user_Id._id);
+                              this.deleteUser(user._id, user.user_Id._id);
                             }}
                           >
-                            <i class="fas fa-trash"></i>
+                            <i className="fas fa-trash"></i>
                           </button>
-                          <button className="btn btn-warning p-1 mx-1" onClick={() => {ele.isBlocked?this.unblockUser(ele._id, ele.user_Id._id):this.blockUser(ele._id,ele.user_Id._id)}}>
-                          {ele.isBlocked?<i class="fas fa-user-lock"></i>:<i class="fas fa-user-lock"></i>}
+                          <button className="btn btn-warning p-1 mx-1" onClick={() => {user.isBlocked?this.unblockUser(user._id, user.user_Id._id):this.blockUser(user._id,user.user_Id._id)}}>
+                          <i className="fas fa-user-lock"></i>
 
                           </button>
-                          
-                        </td>
-                      </tr>
+                      </td>
+                    </tr>
                     ))}
                   </tbody>
                 </table>
@@ -258,7 +197,6 @@ export default class ListUsers extends Component {
             </div>
           </div>
         </div>
-        {/* <!-- /.container-fluid --> */}
       </>
     );
   }

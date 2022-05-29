@@ -96,13 +96,7 @@ export default class App extends Component {
   }
 
   render() {
-    if (
-      !sessionStorage.getItem("isLoggedIn") ||
-      sessionStorage.getItem("isLoggedIn") == undefined ||
-      sessionStorage.getItem("isLoggedIn") == null
-    ) {
-      return <Navigate to="/login" />;
-    }
+   
     return (
       <>
         <ToastContainer />

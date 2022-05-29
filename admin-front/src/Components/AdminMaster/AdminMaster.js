@@ -1,11 +1,28 @@
 import { Component } from "react";
-import {Link} from "react-router-dom";  
-import {Outlet} from "react-router-dom";
+import { Link } from "react-router-dom";
+import { Outlet } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 export default class AdminMaster extends Component {
+  constructor(props) {
+    super(props);
+  }
+  logout = () => {
+    sessionStorage.clear();
+  };
   render() {
+    if (
+      !sessionStorage.getItem("isLoggedIn") ||
+      sessionStorage.getItem("isLoggedIn") == undefined ||
+      sessionStorage.getItem("isLoggedIn") == null ||
+      !localStorage.getItem("isLoggedIn") ||
+      localStorage.getItem("isLoggedIn") == undefined ||
+      localStorage.getItem("isLoggedIn") == null
+    ) {
+      return <Navigate to="/login" />;
+    }
     return (
       <>
-        <div id="wrapper" className="" >
+        <div id="wrapper" className="">
           {/* <!-- Sidebar --> */}
           <ul
             className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
@@ -19,9 +36,7 @@ export default class AdminMaster extends Component {
               <div className="sidebar-brand-icon rotate-n-15">
                 <i className="fas fa-laugh-wink"></i>
               </div>
-              <div className="sidebar-brand-text mx-3">
-                Finder-Admin
-              </div>
+              <div className="sidebar-brand-text mx-3">Finder-Admin</div>
             </Link>
 
             {/* <!-- Divider --> */}
@@ -61,17 +76,13 @@ export default class AdminMaster extends Component {
                 data-parent="#accordionSidebar"
               >
                 <div className="bg-white py-2 collapse-inner rounded">
-                  
-                  <Link to="/listusers" className="collapse-item" >
+                  <Link to="/listusers" className="collapse-item">
                     List Users
                   </Link>
-                  <a className="collapse-item" href="cards.html">
-                    Add User
-                  </a>
-                  <a className="collapse-item" href="cards.html">
+
+                  <Link className="collapse-item" to="/blockedusers">
                     Blocked Users
-                  </a>
-                  
+                  </Link>
                 </div>
               </div>
             </li>
@@ -95,18 +106,11 @@ export default class AdminMaster extends Component {
                 data-parent="#accordionSidebar"
               >
                 <div className="bg-white py-2 collapse-inner rounded">
-                  <h6 className="collapse-header">Custom Utilities:</h6>
                   <a className="collapse-item" href="utilities-color.html">
-                    Colors
+                    List Categories
                   </a>
                   <a className="collapse-item" href="utilities-border.html">
-                    Borders
-                  </a>
-                  <a className="collapse-item" href="utilities-animation.html">
-                    Animations
-                  </a>
-                  <a className="collapse-item" href="utilities-other.html">
-                    Other
+                    Add Category
                   </a>
                 </div>
               </div>
@@ -131,18 +135,11 @@ export default class AdminMaster extends Component {
                 data-parent="#accordionSidebar"
               >
                 <div className="bg-white py-2 collapse-inner rounded">
-                  <h6 className="collapse-header">Custom Utilities:</h6>
                   <a className="collapse-item" href="utilities-color.html">
-                    Colors
+                    List Subcategories
                   </a>
                   <a className="collapse-item" href="utilities-border.html">
-                    Borders
-                  </a>
-                  <a className="collapse-item" href="utilities-animation.html">
-                    Animations
-                  </a>
-                  <a className="collapse-item" href="utilities-other.html">
-                    Other
+                    Add Subcategory
                   </a>
                 </div>
               </div>
@@ -151,72 +148,21 @@ export default class AdminMaster extends Component {
             {/* <!-- Divider --> */}
             <hr className="sidebar-divider" />
 
-            {/* <!-- Heading --> */}
-            <div className="sidebar-heading">Addons</div>
-
             {/* <!-- Nav Item - Pages Collapse Menu --> */}
-            <li className="nav-item">
-              <a
-                className="nav-link collapsed"
-                href="#"
-                data-toggle="collapse"
-                data-target="#collapsePages"
-                aria-expanded="true"
-                aria-controls="collapsePages"
-              >
-                <i className="fas fa-fw fa-folder"></i>
-                <span>Pages</span>
-              </a>
-              <div
-                id="collapsePages"
-                className="collapse"
-                aria-labelledby="headingPages"
-                data-parent="#accordionSidebar"
-              >
-                <div className="bg-white py-2 collapse-inner rounded">
-                  <h6 className="collapse-header">Login Screens:</h6>
-                  <a className="collapse-item" href="login.html">
-                    Login
-                  </a>
-                  <a className="collapse-item" href="register.html">
-                    Register
-                  </a>
-                  <a className="collapse-item" href="forgot-password.html">
-                    Forgot Password
-                  </a>
-                  <div className="collapse-divider"></div>
-                  <h6 className="collapse-header">Other Pages:</h6>
-                  <a className="collapse-item" href="404.html">
-                    404 Page
-                  </a>
-                  <a className="collapse-item" href="blank.html">
-                    Blank Page
-                  </a>
-                </div>
-              </div>
-            </li>
 
             {/* <!-- Nav Item - Charts --> */}
-            <li className="nav-item">
-              <a className="nav-link" href="charts.html">
-                <i className="fas fa-fw fa-chart-area"></i>
-                <span>Charts</span>
-              </a>
-            </li>
-
-            {/* <!-- Nav Item - Tables --> */}
-            <li className="nav-item">
-              <a className="nav-link" href="tables.html">
-                <i className="fas fa-fw fa-table"></i>
-                <span>Tables</span>
-              </a>
+            <li className="nav-item ">
+              <Link
+                to="/login"
+                className="btn btn-danger m-3 ml-5"
+                onClick={this.logout}
+              >
+                LogOut
+              </Link>
             </li>
 
             {/* <!-- Divider --> */}
             <hr className="sidebar-divider d-none d-md-block" />
-
-           
-            
           </ul>
           {/* <!-- End of Sidebar --> */}
 
@@ -233,24 +179,6 @@ export default class AdminMaster extends Component {
                 >
                   <i className="fa fa-bars"></i>
                 </button>
-
-                {/* <!-- Topbar Search --> */}
-                <form className="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                  <div className="input-group">
-                    <input
-                      type="text"
-                      className="form-control bg-light border-0 small"
-                      placeholder="Search for..."
-                      aria-label="Search"
-                      aria-describedby="basic-addon2"
-                    />
-                    <div className="input-group-append">
-                      <button className="btn btn-primary" type="button">
-                        <i className="fas fa-search fa-sm"></i>
-                      </button>
-                    </div>
-                  </div>
-                </form>
 
                 {/* <!-- Topbar Navbar --> */}
                 <ul className="navbar-nav ml-auto">
@@ -304,7 +232,9 @@ export default class AdminMaster extends Component {
                     >
                       <i className="fas fa-bell fa-fw"></i>
                       {/* <!-- Counter - Alerts --> */}
-                      <span className="badge badge-danger badge-counter">3+</span>
+                      <span className="badge badge-danger badge-counter">
+                        3+
+                      </span>
                     </a>
                     {/* <!-- Dropdown - Alerts --> */}
                     <div
@@ -385,7 +315,9 @@ export default class AdminMaster extends Component {
                     >
                       <i className="fas fa-envelope fa-fw"></i>
                       {/* <!-- Counter - Messages --> */}
-                      <span className="badge badge-danger badge-counter">7</span>
+                      <span className="badge badge-danger badge-counter">
+                        7
+                      </span>
                     </a>
                     {/* <!-- Dropdown - Messages --> */}
                     <div
@@ -432,7 +364,9 @@ export default class AdminMaster extends Component {
                             I have the photos that you ordered last month, how
                             would you like them sent to you?
                           </div>
-                          <div className="small text-gray-500">Jae Chun · 1d</div>
+                          <div className="small text-gray-500">
+                            Jae Chun · 1d
+                          </div>
                         </div>
                       </a>
                       <a
@@ -541,7 +475,7 @@ export default class AdminMaster extends Component {
                   </li>
                 </ul>
               </nav>
-              <Outlet/>
+              <Outlet />
               {/* <!-- End of Topbar --> */}
             </div>
           </div>

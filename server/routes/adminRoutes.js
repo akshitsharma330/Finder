@@ -10,11 +10,15 @@ router.post("/countAdmins", userController.countAdmins);
 router.post("/countBlockedUsers", userController.countBlockedUsers);
 router.post("/listUsers", userController.listUsers)
 router.post("/deleteUser", userController.deleteUser)
+router.post("/blockUser", userController.blockUser)
+router.post("/unblockUser", userController.unblockUser)
+router.post("/listBlockedUsers", userController.listBlockedUsers)
 
 
 
 
-router.post("/adduser", userController.addUser);
+
+
 // router.post("/showuser", userController.showuser);
 
 

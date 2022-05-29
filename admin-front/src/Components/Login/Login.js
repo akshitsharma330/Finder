@@ -14,6 +14,7 @@ export default class Login extends Component {
       password: "",
       showPass: false,
       move: false,
+      remember: false
     };
   }
 
@@ -143,7 +144,9 @@ export default class Login extends Component {
                               <input
                                 type="checkbox"
                                 class="custom-control-input"
-                                id="customCheck"
+                                id="rememberCheck"
+                                
+                                onClick={()=>{}}
                               />
                               <label
                                 class="custom-control-label"
@@ -162,11 +165,7 @@ export default class Login extends Component {
                           <hr />
                         </form>
                         <hr />
-                        <div class="text-center">
-                          <a class="small" href="forgot-password.html">
-                            Forgot Password?
-                          </a>
-                        </div>
+                        
                       </div>
                     </div>
                   </div>
