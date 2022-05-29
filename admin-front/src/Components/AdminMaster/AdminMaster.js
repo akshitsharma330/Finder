@@ -8,15 +8,14 @@ export default class AdminMaster extends Component {
   }
   logout = () => {
     sessionStorage.clear();
+    localStorage.clear();
   };
   render() {
     if (
       !sessionStorage.getItem("isLoggedIn") ||
       sessionStorage.getItem("isLoggedIn") == undefined ||
-      sessionStorage.getItem("isLoggedIn") == null ||
-      !localStorage.getItem("isLoggedIn") ||
-      localStorage.getItem("isLoggedIn") == undefined ||
-      localStorage.getItem("isLoggedIn") == null
+      sessionStorage.getItem("isLoggedIn") == null  
+      
     ) {
       return <Navigate to="/login" />;
     }

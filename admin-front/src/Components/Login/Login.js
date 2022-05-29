@@ -13,16 +13,16 @@ export default class Login extends Component {
       email: "",
       password: "",
       showPass: false,
+      remember: false,
       move: false,
-      remember: false
     };
   }
 
-  togglePass=()=>{
+  togglePass = () => {
     this.setState({
-      showPass:!this.state.showPass
-    })
-  }
+      showPass: !this.state.showPass,
+    });
+  };
 
   emailSave = (e) => {
     this.setState({
@@ -63,6 +63,8 @@ export default class Login extends Component {
   };
 
   submit = (e) => {
+    
+    
     e.preventDefault();
     let data = {
       email: this.state.email,
@@ -76,25 +78,35 @@ export default class Login extends Component {
       })
       .then((data) => {
         // console.log(data);
-        if(data.data.success){
+        if (data.data.success) {
           // this.successNotify();
           let token = data.data.token;
           sessionStorage.setItem("token", token);
           sessionStorage.setItem("isLoggedIn", true);
+          if(this.state.remember){
+            localStorage.setItem("token", token);
+            localStorage.setItem("isLoggedIn", true);
+          }
           this.setState({
             move: true,
           });
-        }
-        else{
+        } else {
           this.dangerNotify(data.data.message);
         }
-       
-      })
-      // .catch((err) => console.log(err));
+      });
+    // .catch((err) => console.log(err));
   };
-
+componentDidMount() {
+  if(localStorage.getItem("isLoggedIn")){
+    this.setState({
+      move: true,
+    });
+    sessionStorage.setItem("token", localStorage.getItem("token"));
+    sessionStorage.setItem("isLoggedIn", true);
+  }
+}
   render() {
-    if (this.state.move || sessionStorage.getItem("isLoggedIn")) {
+    if (this.state.move || sessionStorage.getItem("isLoggedIn") || localStorage.getItem("isLoggedIn")) {
       return <Navigate to="/" />;
     }
     return (
@@ -128,7 +140,7 @@ export default class Login extends Component {
                           </div>
                           <div class="form-group">
                             <input
-                              style={{"display":"inline"}}
+                              style={{ display: "inline" }}
                               type={this.state.showPass ? "text" : "password"}
                               value={this.state.password}
                               onChange={this.passwordSave}
@@ -137,16 +149,33 @@ export default class Login extends Component {
                               placeholder="Password"
                               required
                             />
-                            <i class={this.state.showPass ? "fas fa-eye-slash" : "fas fa-eye"} onClick={this.togglePass} style={{"display":"inline", "position":"relative","float":"left","left":"233px", "bottom":"34px" }}></i>
+                            <i
+                              class={
+                                this.state.showPass
+                                  ? "fas fa-eye-slash"
+                                  : "fas fa-eye"
+                              }
+                              onClick={this.togglePass}
+                              style={{
+                                display: "inline",
+                                position: "relative",
+                                float: "left",
+                                left: "233px",
+                                bottom: "34px",
+                              }}
+                            ></i>
                           </div>
                           <div class="form-group">
                             <div class="custom-control custom-checkbox small">
                               <input
                                 type="checkbox"
                                 class="custom-control-input"
-                                id="rememberCheck"
-                                
-                                onClick={()=>{}}
+                                id="customCheck"
+                                onClick={() => {
+                                  this.setState({
+                                    remember: !this.state.remember,
+                                  });
+                                }}
                               />
                               <label
                                 class="custom-control-label"
@@ -165,7 +194,11 @@ export default class Login extends Component {
                           <hr />
                         </form>
                         <hr />
-                        
+                        <div class="text-center">
+                          <a class="small" href="forgot-password.html">
+                            Forgot Password?
+                          </a>
+                        </div>
                       </div>
                     </div>
                   </div>
