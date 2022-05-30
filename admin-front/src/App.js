@@ -4,6 +4,8 @@ import Login from "./Components/Login/Login";
 import Dashboard from "./Components/Dashboard/Dashboard";
 import ListUsers from "./Components/ListUser/ListUser";
 import BlockedUsers from "./Components/BlockedUsers/BlockedUsers";
+import AddCategories from "./Components/AddCategories/AddCategories";
+import ListCategories from "./Components/ListCategories/ListCategories";
 import Page404 from "./Components/Page404/Page404";
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 // import './App.css';
@@ -17,7 +19,9 @@ function App() {
       <Route  path="/" element={<AdminMaster />}>
         <Route index element={<Dashboard/>}/>
         <Route path="listusers" element={<ListUsers/>}/>     
-        <Route path="blockedusers" element={<BlockedUsers/>}/>        
+        <Route path="blockedusers" element={<BlockedUsers/>}/>  
+        <Route path="addcategories" element={<AddCategories/>} />    
+        <Route path="listcategories" element={<ListCategories/>}/> 
    
 
       </Route>  

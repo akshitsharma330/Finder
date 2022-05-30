@@ -111,46 +111,46 @@ componentDidMount() {
     }
     return (
       <>
-        <div class="container ">
+        <div className="container ">
           {/* <!-- Outer Row --> */}
-          <div class="row justify-content-center mt-5">
-            <div class="col-xl-10 col-lg-12 col-md-9 mt-5">
-              <div class="card o-hidden border-0 rounded shadow-lg my-5 ">
-                <div class="card-body p-0">
+          <div className="row justify-content-center mt-5">
+            <div className="col-xl-10 col-lg-12 col-md-9 mt-5">
+              <div className="card o-hidden border-0 rounded shadow-lg my-5 ">
+                <div className="card-body p-0">
                   {/* <!-- Nested Row within Card Body --> */}
-                  <div class="row ">
-                    <div class="col-lg-6 d-none d-lg-block bg-login-image "></div>
-                    <div class="col-lg-6 p-5">
-                      <div class="p-5">
-                        <div class="text-center">
-                          <h1 class="h4 text-gray-900 mb-4">Admin Login</h1>
+                  <div className="row ">
+                    <div className="col-lg-6 d-none d-lg-block bg-login-image "></div>
+                    <div className="col-lg-6 p-5">
+                      <div className="p-5">
+                        <div className="text-center"> 
+                          <h1 className="h4 text-gray-900 mb-4">Admin Login</h1>
                         </div>
-                        <form class="user" onSubmit={this.submit}>
-                          <div class="form-group">
+                        <form className="user" onSubmit={this.submit}>
+                          <div className="form-group">
                             <input
                               type="email"
                               value={this.state.email}
                               onChange={this.emailSave}
-                              class="form-control form-control-user "
+                              className="form-control form-control-user "
                               id="exampleInputEmail"
                               aria-describedby="emailHelp"
                               placeholder="Email"
                               required
                             />
                           </div>
-                          <div class="form-group">
+                          <div className="form-group">
                             <input
                               style={{ display: "inline" }}
                               type={this.state.showPass ? "text" : "password"}
                               value={this.state.password}
                               onChange={this.passwordSave}
-                              class="form-control form-control-user"
+                              className="form-control form-control-user"
                               id="exampleInputPassword"
                               placeholder="Password"
                               required
                             />
                             <i
-                              class={
+                              className={
                                 this.state.showPass
                                   ? "fas fa-eye-slash"
                                   : "fas fa-eye"
@@ -165,11 +165,11 @@ componentDidMount() {
                               }}
                             ></i>
                           </div>
-                          <div class="form-group">
-                            <div class="custom-control custom-checkbox small">
+                          <div className="form-group">
+                            <div className="custom-control custom-checkbox small">
                               <input
                                 type="checkbox"
-                                class="custom-control-input"
+                                className="custom-control-input"
                                 id="customCheck"
                                 onClick={() => {
                                   this.setState({
@@ -178,7 +178,7 @@ componentDidMount() {
                                 }}
                               />
                               <label
-                                class="custom-control-label"
+                                className="custom-control-label"
                                 for="customCheck"
                               >
                                 Remember Me
@@ -187,15 +187,15 @@ componentDidMount() {
                           </div>
                           <button
                             type="submit"
-                            class="btn btn-primary btn-user btn-block"
+                            className="btn btn-primary btn-user btn-block"
                           >
                             Login
                           </button>
                           <hr />
                         </form>
                         <hr />
-                        <div class="text-center">
-                          <a class="small" href="forgot-password.html">
+                        <div className="text-center">
+                          <a className="small" href="forgot-password.html">
                             Forgot Password?
                           </a>
                         </div>

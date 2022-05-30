@@ -1,13 +1,14 @@
-const Category=require('./catModel')
+const categoryModel=require('./catModel')
+const subCategoryModel=require('./subCatModel')
 
-exports.fetchCategory = (req,res)=>{
- Category.find()
+exports.listCategories = (req,res)=>{
+ categoryModel.find()
     .then(data=>{
         res.json({
             "message":"All categories",
             "status":200,
             "success":true,
-            data:data
+            categories:data
         })
     })
     
@@ -15,7 +16,7 @@ exports.fetchCategory = (req,res)=>{
 
 exports.addCategory = (req,res)=>{
     if(req==undefined|| req.body==undefined|| 
-        req.body.categoryName==undefined){
+        req.body.name==undefined){
         
         res.json({
             "message":"Fill the Form",
@@ -23,8 +24,7 @@ exports.addCategory = (req,res)=>{
             "success":false
         })
     }else{
-     Category.findOne({categoryName:req.body.categoryName})
-     .exec()
+     categoryModel.findOne({name:req.body.name})
         .then(async data=>{
             if(data!=null){                
                 res.json({
@@ -33,13 +33,12 @@ exports.addCategory = (req,res)=>{
                     "success":false
                 })
             }else{
-                let total = await Category.countDocuments();
-                let categObj = new Category()
-                categObj.categoryName = req.body.categoryName;
-                categObj.categoryDescription = req.body.categoryDescription;
+                let total = await categoryModel.countDocuments().exec();
+                let catObj = new categoryModel()
+                catObj.name = req.body.name;
+                catObj.description = req.body.description;
 
-                categObj.categoryId = total+1
-                categObj.save()
+                catObj.save()
                 .then(catg=>{
                     res.json({
                         "message":"category Added",
@@ -61,45 +60,11 @@ exports.addCategory = (req,res)=>{
     }
 }
 
-// exports.updateCategory = (req,res)=>{
-//  Category.findOne({"_id":req.body._id})
-//         .then(data=>{
-//             if(data!=null){
-//                 data.categoryName=req.body.categoryName;             
-//                 data.save();
-//                  res.json({
-//                     "message":"category updated",
-//                     "status":200,
-//                     "success":true,
-//                     "data":data,
-//                     })
-                    
-//                 }else{
-//                     res.json({
-//                         "message":"no data updated",
-//                         "status":200,
-//                         "success":false,
-//                         "data":[]
-//                     })
-//                 }
-        
-               
-//             })
-//             .catch(err=>{
-//                 res.json({
-//                     "message":"error occured",
-//                     "status":500,
-//                     "success":false,
-//                     "data":[],5
-//                     error:String(err)
-//                 })
-//             })
-//         }
-        
+
         
     
 exports.deleteCategory = (req,res)=>{
-    if(req.body._id==undefined||req.body._id==null){
+    if(req.body.catId==undefined||req.body.catId==null){
         res.json({
             "message":"Please select a Category",
             "status":400,
@@ -107,18 +72,20 @@ exports.deleteCategory = (req,res)=>{
             })
     }
     else{
-     Category.deleteOne({"_id":req.body._id})
+     subCategoryModel.deleteMany({"cat_Id":req.body.catId})
         .then(data=>{
-            res.json({
-                "message":"catagory deleted",
-                "status":200,
-                "success":true,
-                data:data
+            categoryModel.deleteOne({_id:req.body.catId}).then(data=>{
+                res.json({
+                    message:"Category deleted successfully",
+                    status:200,
+                    success:true
+                })
             })
             })
+            
        .catch(err=>{
            res.json({
-               "message":"error in delete",
+               "message":"Error in deletion",
                "status":500,
                "success":false,
                "error":String(err)

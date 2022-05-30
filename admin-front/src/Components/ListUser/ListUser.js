@@ -234,7 +234,7 @@ export default class ListUsers extends Component {
                         <td>{ele.user_Id.number}</td>
                         <td>{ele.adCount}</td>
                         <td>{ele.isBlocked?"Blocked":"Active"}</td>
-                        <td>{ele.createdAt}</td>
+                        <td>{ele.createAt}</td>
                         <td>
                           <button
                             className="btn btn-danger p-1 mx-1"

@@ -105,12 +105,12 @@ export default class AdminMaster extends Component {
                 data-parent="#accordionSidebar"
               >
                 <div className="bg-white py-2 collapse-inner rounded">
-                  <a className="collapse-item" href="utilities-color.html">
+                  <Link to="/listcategories" className="collapse-item" href="utilities-color.html">
                     List Categories
-                  </a>
-                  <a className="collapse-item" href="utilities-border.html">
+                  </Link >
+                  <Link to ='/addcategories' className="collapse-item" href="utilities-border.html">
                     Add Category
-                  </a>
+                  </Link>
                 </div>
               </div>
             </li>
