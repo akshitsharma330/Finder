@@ -16,6 +16,24 @@ export default class ListCategories extends Component {
       totalCategories: "",
     };
   }
+  refreshList=()=>{
+    axios
+      .post(
+        `${BaseURLAdmin}/listCategories`,
+        {},
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            authorization: sessionStorage.getItem("token"),
+          },
+        }
+      )
+      .then((data) => {
+        console.log(data);
+        this.setState({ categories: data.data.categories });
+      });
+
+  }
   
   //delete category function
   deleteCategory = (catId) => {
@@ -107,7 +125,7 @@ export default class ListCategories extends Component {
                       <tr key={index + 1}>
                         <td>{index + 1}</td>
                         <td>
-                          <Link to="/listSubCategory" params={{catId:ele._id}}>{ele.name}</Link>
+                          <Link to={{pathname:`/listsubcategory/${ele._id}/${ele.name}`, state:this.state}} params={{catId:ele._id}}>{ele.name}</Link>
                         </td>
                         <td>{ele.description}</td>
                         <td>{ele.createdAt}</td>
@@ -120,6 +138,14 @@ export default class ListCategories extends Component {
                           >
                             <i className="fas fa-trash"></i>
                           </button>
+                          <Link
+                          to={{pathname:`/addSubCategory/${ele._id}/${ele.name}`, state:this.state}}
+                          className="btn btn-primary"
+                          >
+                            <i className="fas fa-plus"></i>
+
+                          </Link>
+                         
                         </td>
                       </tr>
                     ))}

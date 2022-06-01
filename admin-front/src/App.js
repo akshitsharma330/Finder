@@ -1,4 +1,5 @@
 import logo from './logo.svg';
+import react from 'react';
 import AdminMaster from './Components/AdminMaster/AdminMaster';
 import Login from "./Components/Login/Login";
 import Dashboard from "./Components/Dashboard/Dashboard";
@@ -6,11 +7,17 @@ import ListUsers from "./Components/ListUser/ListUser";
 import BlockedUsers from "./Components/BlockedUsers/BlockedUsers";
 import AddCategories from "./Components/AddCategories/AddCategories";
 import ListCategories from "./Components/ListCategories/ListCategories";
+import ListSubCategories from "./Components/ListSubCategories/ListSubCategories";
+import AddSubCategory from "./Components/AddSubCategory/AddSubCategory";
 import Page404 from "./Components/Page404/Page404";
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 // import './App.css';
 
-function App() {
+export default class App extends react.Component {
+  constructor(props){
+    super(props);
+  }
+  render(){
   return (
     <Router>
 
@@ -22,6 +29,9 @@ function App() {
         <Route path="blockedusers" element={<BlockedUsers/>}/>  
         <Route path="addcategories" element={<AddCategories/>} />    
         <Route path="listcategories" element={<ListCategories/>}/> 
+        <Route path="listsubcategory/:id/:cat" element={<ListSubCategories />}/> 
+        <Route path="addSubCategory/:id/:cat" element={<AddSubCategory/>}/>
+        
    
 
       </Route>  
@@ -32,5 +42,5 @@ function App() {
     
   );
 }
+}
 
-export default App;

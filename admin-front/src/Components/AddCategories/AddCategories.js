@@ -39,6 +39,7 @@ export default class AddCategories extends Component {
             progress: undefined,
             theme: "colored",
           });
+          
         } else {
           toast.error(data.data.message, {
             position: "top-right",
@@ -52,6 +53,7 @@ export default class AddCategories extends Component {
           });
         }
       });
+      this.setState({title:"",description:""})
   };
   render() {
     return (

@@ -115,34 +115,7 @@ export default class AdminMaster extends Component {
               </div>
             </li>
 
-            <li className="nav-item">
-              <a
-                className="nav-link collapsed"
-                href="#"
-                data-toggle="collapse"
-                data-target="#collapseSubCategories"
-                aria-expanded="true"
-                aria-controls="collapseSubCategories"
-              >
-                <i className="fas fa-fw fa-wrench"></i>
-                <span>Sub-Categories</span>
-              </a>
-              <div
-                id="collapseSubCategories"
-                className="collapse"
-                aria-labelledby="headingUtilities"
-                data-parent="#accordionSidebar"
-              >
-                <div className="bg-white py-2 collapse-inner rounded">
-                  <a className="collapse-item" href="utilities-color.html">
-                    List Subcategories
-                  </a>
-                  <a className="collapse-item" href="utilities-border.html">
-                    Add Subcategory
-                  </a>
-                </div>
-              </div>
-            </li>
+           
 
             {/* <!-- Divider --> */}
             <hr className="sidebar-divider" />

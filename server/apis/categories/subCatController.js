@@ -2,38 +2,37 @@ var mongoose = require('mongoose');
 
 const subCategory=require('./subCatModel')
 
-exports.addSubcategory=(req,res)=>{
-    if(req.body==undefined||req.body.subcategoryName==undefined){
+exports.addSubCategory=(req,res)=>{
+    console.log(req.body)
+    if(req.body.description==undefined||req.body.name==undefined){
         res.json({
-            "message":"Fill all details",
+            "message":"Fill all detailss",
             "status":400,
             "success":false,
         })
     }else{
-        subCategory.findOne({"subcategoryName":req.body.subcategoryName})
-        .then(async data=>{
+        subCategory.findOne({"name":req.body.name})
+        .then(data=>{
             if(data!=null){
                 res.json({
-                    "message":"data already existed",
+                    "message":"SubCategory already exists",
                     "status":400,
                     "success":false,
                 })
             }else{
-                let counter=await subCategory.countDocuments()
                 let subObj=new subCategory()
-                subObj.subcategoryName=req.body.subcategoryName==undefined?"":req.body.subcategoryName
-                subObj.subcategoryDescription=req.body.subcategoryDescription==undefined?"":req.body.subcategoryDescription
-                subObj.categoryId = req.body.categoryId
+                subObj.name=req.body.name==undefined?"":req.body.name
+                subObj.description=req.body.description==undefined?"":req.body.description
+                subObj.cat_Id = req.body.cat_Id
 
 
-                subObj.subcategoryId=counter+1
                 subObj.save()
-                .then(subct=>{
+                .then(data=>{
                     res.json({
                         "message":"Subcategory added",
                         "status":200,
                         "success":true,
-                        "data":subct
+                        "data":data
                     })
                 })
                 .catch(err=>{
@@ -48,6 +47,48 @@ exports.addSubcategory=(req,res)=>{
             }
         })
     }
+}
+exports.listSubCategories=(req,res)=>{
+    subCategory.find({cat_Id : req.body.cat_id})
+    .then(data=>{
+        res.json({
+            "message":"All subcategories",
+            "status":200,
+            "success":true,
+            subCategories:data
+        })
+    })
+    
+
+}
+exports.deleteSubCategory=(req,res)=>{
+    console.log(req.body)
+    if(req.body.id==undefined||req.body.id==null){
+        res.json({
+            "message":'Fill the ID',
+            "status":400,
+            "success":false,
+        })
+    }else{
+        subCategory.deleteOne({"_id":req.body.id})
+        .then(data=>{
+            res.json({
+                "message":"Subcategory deleted",
+                "status":200,
+                "success":true,
+            })
+        })
+        .catch(err=>{
+            res.json({
+                "message":"error occured",
+                "status":500,
+                "success":false,
+                "error":String(err)
+            })
+        })
+
+    }
+    
 }
 
 // exports.updateSubcategory=(req,res)=>{
@@ -79,34 +120,3 @@ exports.addSubcategory=(req,res)=>{
 //         })
 //     })
 // }
-
-exports.deleteSubcategory=(req,res)=>{
-    if(req.body._id==undefined||req.body._id==null){
-        res.json({
-            "message":'Fill the ID',
-            "status":400,
-            "success":false,
-        })
-    }else{
-        subCategory.deleteOne({"_id":req.body._id})
-        .then(data=>{
-            res.json({
-                "message":"Subcategory deleted",
-                "status":200,
-                "success":true,
-            })
-        })
-        .catch(err=>{
-            res.json({
-                "message":"error occured",
-                "status":500,
-                "success":false,
-                "error":String(err)
-            })
-        })
-
-    }
-    
-}
-
-//helllo kuldep

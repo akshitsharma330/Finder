@@ -2,6 +2,7 @@ const router = require('express').Router();
 
 const userController = require("../apis/user/userController");
 const catController = require("../apis/categories/catController");
+const subCatController = require("../apis/categories/subCatController");
 
 router.post('/login',userController.AdminLogin)
 router.use(require('../common/adminmiddleware'))
@@ -17,6 +18,9 @@ router.post("/listBlockedUsers", userController.listBlockedUsers)
 router.post("/addCategory",catController.addCategory)
 router.post("/listCategories",catController.listCategories)
 router.post("/deleteCategory",catController.deleteCategory)
+router.post("/listSubCategories",subCatController.listSubCategories)
+router.post("/addSubCategory",subCatController.addSubCategory)
+router.post("/deleteSubCategory",subCatController.deleteSubCategory)
 
 
 

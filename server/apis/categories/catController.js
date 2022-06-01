@@ -15,6 +15,7 @@ exports.listCategories = (req,res)=>{
 }
 
 exports.addCategory = (req,res)=>{
+    console.log (req.body)
     if(req==undefined|| req.body==undefined|| 
         req.body.name==undefined){
         
@@ -59,6 +60,7 @@ exports.addCategory = (req,res)=>{
         })
     }
 }
+
 
 
         
