@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import qs from "qs";
@@ -15,6 +15,14 @@ export default function Login() {
   const savePassword = (e) => {
     setPassword(e.target.value);
   };
+  let [remember, setRemember] = useState(false);
+  let [showPass, setShowPass] = useState(false);
+  const togglePass = () => {
+    setShowPass(!showPass);
+    console.log(showPass);
+  };
+  let [move, setMove] = useState(false);
+
 
   const dangerNotify = (data) => {
     toast.error(data, {
@@ -41,6 +49,19 @@ export default function Login() {
       theme: "colored",
     });
   };
+  useEffect(()=>{
+    if(localStorage.getItem("isLoggedIn")){
+      setMove(true);
+      sessionStorage.setItem("isLoggedIn",true);
+      sessionStorage.setItem("token",localStorage.getItem("token"));
+    }
+    
+
+  },[])
+
+  useEffect(()=>{
+
+  })
 
   const Login = (e) => {
     e.preventDefault();
@@ -58,14 +79,29 @@ export default function Login() {
       })
       .then((data) => {
         console.log(data);
-        (data.data.success ? successNotify() : dangerNotify(data.data.message))(
+        if (data.data.success) {
+          let token= data.data.token;
+          successNotify();
+          sessionStorage.setItem("isLoggedIn", true);
+          sessionStorage.setItem("token", token);
+          setMove(true)
+          if(remember){
+            localStorage.setItem("isLoggedIn", true);
+            localStorage.setItem("token", token);
+          }
           
-        );
+        }else{
+          dangerNotify(data.data.message);
+        }
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
+  if(move || sessionStorage.getItem("isLoggedIn")){
+        return(<Navigate to="/"/>)
+  }
 
   return (
     <>
@@ -75,7 +111,7 @@ export default function Login() {
             <div className="col-lg-5 col-md-8 align-item-center">
               <div className="border shadow">
                 <h3 className="bg-gray p-4">Login Now</h3>
-                <form action="">
+                <form action="" onSubmit={Login}>
                   <fieldset className="p-4">
                     <input
                       type="text"
@@ -83,14 +119,32 @@ export default function Login() {
                       className="form-control border p-3 w-100 my-2"
                       value={email}
                       onChange={saveEmail}
+                      
                     />
                     <input
-                      type="password"
+                      type={showPass ? "text" : "password"}
                       placeholder="Enter Password"
                       className="form-control border p-3 w-100 my-2"
                       value={password}
                       onChange={savePassword}
+                      onDoubleClick={togglePass}
                     />
+                    <i
+                      className={
+                        showPass ? "fas fa-eye-slash" : "fas fa-eye"
+                      }
+                      onClick={()=>{
+                        setShowPass(!showPass);
+                        console.log(showPass);
+                      }}
+                      style={{
+                        "position": "relative",
+                        float: "right",
+                        top: "-40px",
+                        right: "18px",
+                        
+                      }}
+                    ></i>
 
                     <button
                       type="submit"

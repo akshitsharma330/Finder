@@ -1,9 +1,11 @@
 import { Navigate } from "react-router-dom";
+import {useState, useEffect} from "react";
 import {isLoggedin} from "../../Common/constants";
 export default function AdPost() {
+  const [isLoggedIn, setIsLoggedIn] = useState(sessionStorage.getItem('isLoggedIn'))
 
-  if(isLoggedin===false){
-    <Navigate to="login"/>
+  if(isLoggedIn===false || isLoggedIn===null || isLoggedIn===undefined || !sessionStorage.getItem("isLoggedIn") || !sessionStorage.getItem("isLoggedIn")==null || !sessionStorage.getItem("isLoggedIn")==undefined){
+    return(<Navigate to="/login"/>)
   }
   return (
     <>

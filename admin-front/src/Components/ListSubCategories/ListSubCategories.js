@@ -10,7 +10,7 @@ export default function ListSubCategories() {
   var [subCategories, setSubCategories] = useState([]);
   const linkParam = useParams();
 
-  const refreshList=()=>{
+  const refreshList = () => {
     axios
       .post(`${BaseURLAdmin}/listSubCategories`, qs.stringify(postdata), {
         headers: {
@@ -21,46 +21,45 @@ export default function ListSubCategories() {
       .then((data) => {
         setSubCategories(data.data.subCategories);
       });
-
-  }
+  };
 
   const deleteSubCategory = (id) => {
     axios
-    .post(`${BaseURLAdmin}/deleteSubCategory`, qs.stringify({id}), {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        authorization: sessionStorage.getItem("token"),
-      },
-    })
-    .then((data) => {
-      if (data.data.success) {
-        toast.success(data.data.message, {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
-      
-      refreshList();
-      }else{
-        toast.error(data.data.message, {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
-      }
-    });
+      .post(`${BaseURLAdmin}/deleteSubCategory`, qs.stringify({ id }), {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          authorization: sessionStorage.getItem("token"),
+        },
+      })
+      .then((data) => {
+        if (data.data.success) {
+          toast.success(data.data.message, {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+
+          refreshList();
+        } else {
+          toast.error(data.data.message, {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+        }
+      });
   };
-  
+
   var postdata = {
     cat_id: linkParam.id,
   };
@@ -75,7 +74,7 @@ export default function ListSubCategories() {
       .then((data) => {
         setSubCategories(data.data.subCategories);
       });
-  },[]);
+  }, []);
 
   return (
     <>
@@ -106,25 +105,28 @@ export default function ListSubCategories() {
                   </tr>
                 </thead>
                 <tbody>
-                  {subCategories.map((ele, index) => (
-                    <tr key={index + 1}>
-                      <td>{index + 1}</td>
-                      <td>{ele.name}</td>
-                      <td>{ele.description}</td>
-                      <td>{ele.createdAt}</td>
-                      <td>
-                        <button
-                          className="btn btn-danger"
-                          onClick={() => {console.log("click");
+                  {subCategories.map((ele, index) => {
+                    return (
+                      <tr key={index + 1}>
+                        <td>{index + 1}</td>
+                        <td>{ele.name}</td>
+                        <td>{ele.description}</td>
+                        <td>{ele.createdAt}</td>
+                        <td>
+                          <button
+                            className="btn btn-danger"
+                            onClick={() => {
+                              console.log("click");
 
-                            deleteSubCategory(ele._id);
-                          }}
-                        >
-                          <i className="fas fa-trash"></i>
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
+                              deleteSubCategory(ele._id);
+                            }}
+                          >
+                            <i className="fas fa-trash"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>

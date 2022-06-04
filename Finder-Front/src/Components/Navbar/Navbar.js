@@ -1,5 +1,35 @@
-import {Link} from 'react-router-dom';
+import { Link , Navigate} from "react-router-dom";
+
+import { useState, useEffect } from "react";
+import axios from "axios";
+import cors from "cors";
+import { BaseURLUser } from "../../Common/constants";
+import qs from "qs";
 export default function Navbar() {
+  var [isLoggedIn, setIsLoggedIn] = useState(sessionStorage.getItem("isLoggedIn"));
+  let [categories, setCategories] = useState([]);
+  let [subCategories, setSubCategories] = useState([]);
+  useEffect(() => {
+    axios
+    .post(`${BaseURLUser}listCategories`, qs.stringify(), {
+      headers: { "Contact-Type": "application/x-www-form-urlencoded" },
+    })
+    .then((data) => {
+      console.log(data);
+      setCategories(data.data.categories);
+    });
+  }, []);
+  // if(sessionStorage.getItem("isLoggedIn")){
+  //   return(<Navigate to="/login"/>)
+  // }
+  useEffect(()=>{
+    setIsLoggedIn(sessionStorage.getItem("isLoggedIn"));
+  })
+  const logout=()=>{
+    setIsLoggedIn(false);
+    sessionStorage.clear();
+    localStorage.clear();
+  }
   return (
     <>
       <section>
@@ -8,7 +38,12 @@ export default function Navbar() {
             <div className="col-md-12">
               <nav className="navbar navbar-expand-lg navbar-light navigation">
                 <Link className="navbar-brand" to="/">
-                  <img className="img-responsive rounded " src="assets/images/finder-logo.jpeg" height="90" alt="" />
+                  <img
+                    className="img-responsive rounded "
+                    src="assets/images/finder-logo.jpeg"
+                    height="90"
+                    alt=""
+                  />
                 </Link>
                 <button
                   className="navbar-toggler"
@@ -39,40 +74,24 @@ export default function Navbar() {
                         aria-haspopup="true"
                         aria-expanded="false"
                       >
-                        Pages{" "}
+                        Categories{" "}
                         <span>
                           <i className="fa fa-angle-down"></i>
                         </span>
                       </a>
                       {/* <!-- Dropdown list --> */}
                       <div className="dropdown-menu">
-                        <a className="dropdown-item" href="about-us.html">
-                          About Us
-                        </a>
-                        <a className="dropdown-item" href="contact-us.html">
-                          Contact Us
-                        </a>
-                        <a className="dropdown-item" href="user-profile.html">
-                          User Profile
-                        </a>
-                        <a className="dropdown-item" href="404.html">
-                          404 Page
-                        </a>
-                        <a className="dropdown-item" href="package.html">
-                          Package
-                        </a>
-                        <a className="dropdown-item" href="single.html">
-                          Single Page
-                        </a>
-                        <a className="dropdown-item" href="store.html">
-                          Store Single
-                        </a>
-                        <a className="dropdown-item" href="single-blog.html">
-                          Single Post
-                        </a>
-                        <a className="dropdown-item" href="blog.html">
-                          Blog
-                        </a>
+                        {categories.map((ele, index) => (
+                          
+                            <Link
+                              className="dropdown-item"
+                              key={index}
+                              to={`/category/${ele._id}`}
+                            >
+                              {ele.name}
+                            </Link>
+                          )
+                        )}
                       </div>
                     </li>
                     <li className="nav-item dropdown dropdown-slide">
@@ -93,15 +112,13 @@ export default function Navbar() {
                         <a className="dropdown-item" href="category.html">
                           Ad-Gird View
                         </a>
-                        <a className="dropdown-item" href="ad-listing-list.html">
+                        <a
+                          className="dropdown-item"
+                          href="ad-listing-list.html"
+                        >
                           Ad-List View
                         </a>
                       </div>
-                    </li>
-                    <li className="nav-item active">
-                      <Link className="nav-link" to="/about">
-                        About
-                      </Link>
                     </li>
                     <li className="nav-item active">
                       <Link className="nav-link" to="/contact-us">
@@ -109,17 +126,34 @@ export default function Navbar() {
                       </Link>
                     </li>
                     <li className="nav-item active">
-                      <Link className="nav-link" to="/dashboard">
-                        Dashboard
+                      <Link className="nav-link" to="/about">
+                        About
                       </Link>
                     </li>
+                    
                   </ul>
                   <ul className="navbar-nav ml-auto mt-10">
-                    <li className="nav-item">
-                      <Link className="nav-link login-button bg-primary text-light rounded" to="/login">
+                    {!isLoggedIn?<li className="nav-item">
+                      <Link
+                        className="nav-link login-button bg-primary text-light rounded"
+                        to="/login"
+                      >
                         Login
                       </Link>
+                    </li>:<><li className="nav-item">
+                      <button
+                        className="btn btn-danger p-2 "
+                        onClick={()=>{logout()}}
+                      >
+                        <i className="fa fa-sign-out"></i>
+                      </button>
                     </li>
+                    <li className="nav-item active">
+                    <Link className="nav-link" to="/dashboard">
+                      <i className="fas fa-user"></i>
+                    </Link>
+                  </li></>}
+                    
                     <li className="nav-item">
                       <Link
                         className="nav-link text-white add-button bg-info rounded"

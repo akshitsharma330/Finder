@@ -8,6 +8,7 @@ import Dashboard from "./Components/Dashboard/Dashboard";
 import UserMaster from "./Components/UserMaster/UserMaster";
 import Login from "./Components/Login/Login";
 import Register from "./Components/Register/Register";
+import Web404 from "./Components/404/Web404";
 
 
 import AdView from "./Components/AdView/AdView";
@@ -26,6 +27,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/Register" element={<Register />} />
           </Route>
+          <Route path="*" element={<Web404/>}/>   
         </Routes>
       </BrowserRouter>
     </>
