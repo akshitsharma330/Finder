@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Navigate } from "react-router-dom";
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import qs from "qs";
@@ -67,7 +68,7 @@ export default function Register() {
   };
 
   const successNotify = () => {
-    toast.success("Reggistered", {
+    toast.success("Registered", {
       position: "top-right",
       autoClose: 3000,
       hideProgressBar: true,
@@ -104,11 +105,27 @@ export default function Register() {
           })
           .then((data) => {
             console.log(data);
-            data.data.success ? successNotify() : dangerNotify(data.data.message);
+            if (data.data.success) {
+              successNotify();
+              setName("");
+              setEmail("");
+              setPassword("");
+              setCpassword("");
+              setNumber("");
+              setState("");
+              setCity("");
+              setGender("");
+              setImg("");
+            }
+            if (data.data.success) {
+              successNotify();
+              return(<Navigate to="/login"/>);
+            } else {
+              dangerNotify(data.data.message);
+            }
           })
           .catch((erro) => console.log(erro));
-      }
-      else{
+      } else {
         dangerNotify("Password and Confirm Password not match");
       }
     }
@@ -122,7 +139,7 @@ export default function Register() {
             <div className="col-lg-6 col-md-8 align-item-center">
               <div className="border border rounded shadow ">
                 <h3 className="bg-gray p-4">Register Now</h3>
-                <form onSubmit={register}>
+                <form onSubmit={register} enctype="multipart/form-data">
                   <fieldset className="p-4">
                     <input
                       required
@@ -180,6 +197,7 @@ export default function Register() {
                       placeholder="City"
                       onChange={saveImg}
                       className="bform-control-file order p-3 w-100 my-2"
+                      accept="image/png, image/jpeg, image/jpg"
                     />
                     <div className="form-group pl-3">
                       <div className="form-check form-check-inline ">

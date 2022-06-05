@@ -9,6 +9,8 @@ import UserMaster from "./Components/UserMaster/UserMaster";
 import Login from "./Components/Login/Login";
 import Register from "./Components/Register/Register";
 import Web404 from "./Components/404/Web404";
+import Profile from "./Components/Profile/Profile";
+// import Temp from "./Components/Temp/Temp";
 
 
 import AdView from "./Components/AdView/AdView";
@@ -24,10 +26,12 @@ function App() {
             <Route path="/adPost" element={<AdPost />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/adView" element={<AdView />} />
+            <Route path="/profile" element={<Profile />} />
+          </Route>
             <Route path="/login" element={<Login />} />
             <Route path="/Register" element={<Register />} />
-          </Route>
-          <Route path="*" element={<Web404/>}/>   
+          <Route path="*" element={<Web404/>}/>  
+          {/* <Route path="/temp" element={<Temp/>} /> */}
         </Routes>
       </BrowserRouter>
     </>

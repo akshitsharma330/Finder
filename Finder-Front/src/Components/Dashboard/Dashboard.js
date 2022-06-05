@@ -10,6 +10,8 @@ export default function Dashboard() {
   }
 
   
+
+  
   return (
     <>
       <section className="dashboard section">
@@ -30,11 +32,11 @@ export default function Dashboard() {
                     />
                   </div>
                   {/* <!-- User Name --> */}
-                  <h5 className="text-center">User Name</h5>
+                  <h5 className="text-center">{sessionStorage.getItem("uname")}</h5>
                   <p>Joined February 06, 2022</p>
-                  <a href="user-profile.html" className="btn btn-main-sm">
+                  <Link to ="/profile" href="user-profile.html" className="btn btn-main-sm">
                     Edit Profile
-                  </a>
+                  </Link>
                 </div>
                 {/* <!-- Dashboard Links --> */}
                 <div className="widget user-dashboard-menu">

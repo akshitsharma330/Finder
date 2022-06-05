@@ -44,6 +44,11 @@ exports.register = (req, res) => {
         uinfoObj.name = req.body.name;
         uinfoObj.email = req.body.email;
         uinfoObj.gender = req.body.gender;
+        let dp = "public/images/dp/default.jpg";
+        if(req.file!=undefined && req.file.filename!=undefined){
+          dp = "public/images/dp/"+req.file.filename;
+        }
+        uinfoObj.profile = dp;
         uinfoObj.number = req.body.number;
         uinfoObj.state = req.body.state;
         uinfoObj.city = req.body.city;
@@ -110,7 +115,7 @@ exports.login = (req, res) => {
   } else {
     userModel
       .findOne({ email: req.body.email })
-      .then((uObj) => {
+      .then(async(uObj) => {
         if (uObj == null) {
           res.json({
             message: "Account not found",
@@ -142,11 +147,16 @@ exports.login = (req, res) => {
               let token = jwt.sign(payload, SECRET, {
                 expiresIn: 60 * 60 * 24 * 365,
               });
+              userData=await uinfoModel.findOne({ _id: uObj.user_Id }).exec();
+              console.log(userData);
               res.json({
                 message: "Login Successfull",
                 status: 200,
                 success: true,
                 token: token,
+                uinfo:userData,
+                uid:uObj._id,
+                
               });
             }
           }
@@ -398,6 +408,42 @@ exports.listBlockedUsers = (req, res) => {
       })
     );
 };
+//changing password
+exports.updatePassword = (req, res) => {
+  let pass = bcrypt.hashSync(req.body.password, salts);
+
+  userModel.updateOne({ _id: req.body.id }, {$set: {password:pass}}).then((data) => {
+    res.json({
+      message: "Password Updated",
+      status: 200,
+      success: true,
+    }); 
+  }).catch(err=>{
+    res.json({
+      message: "Error",
+      status: 500,
+      success: false,
+      error: String(err)
+    })
+  })
+}
+//updating user info name and phone number
+exports.updateInfo=(req,res)=>{
+  uinfoModel.updateOne({_id:req.body.id},{$set:{name:req.body.name,number:req.body.number}}).then((data)=>{ 
+    res.json({
+      message: "Info Updated",
+      status: 200,
+      success: true,
+    }).catch((err)=>{
+      res.json({
+        message: "Error",
+        status: 500,
+        success: false,
+        error: String(err)
+      })
+    })
+  })
+}
 
 
 
