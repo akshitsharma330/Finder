@@ -4,7 +4,7 @@ const postController = require("../apis/post/postController");
 const catController = require("../apis/categories/catController");
 const multer = require("multer");
 const path = require("path");
-const storagedp=multer.diskStorage({
+const storage=multer.diskStorage({
   destination: function(req,file,cb){
     cb(null,"public/images/dp")
   },
@@ -14,13 +14,14 @@ const storagedp=multer.diskStorage({
     cb(null,newname)
   }
 })
-const uploaddp=multer({storage: storagedp})
+const upload=multer({storage: storage})
 router.post("/listCategories", catController.listCategories)
-router.post("/register",uploaddp.single("dpImage"),userController.register)
+router.post("/register",upload.single("profile"),userController.register)
 
 router.post('/login',userController.login)
 // router.use(require('../common/usermiddleware'))
 router.post("/addPost",postController.addPost)
 router.post("/updatePassword",userController.updatePassword)
+router.post("/updateInfo",userController.updateInfo)
 
 module.exports = router;

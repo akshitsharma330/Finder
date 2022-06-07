@@ -19,12 +19,12 @@ export default function Navbar() {
       setCategories(data.data.categories);
     });
   }, []);
-  if(sessionStorage.getItem("isLoggedIn")){
-    return(<Navigate to="/login"/>)
-  }
   useEffect(()=>{
     setIsLoggedIn(sessionStorage.getItem("isLoggedIn"));
   })
+  // if(sessionStorage.getItem("isLoggedIn")){
+  //   return(<Navigate to="/login"/>)
+  // }
   const logout=()=>{
     setIsLoggedIn(false);
     sessionStorage.clear();

@@ -1,24 +1,47 @@
-import { Navigate } from "react-router-dom";
-import {useState, useEffect} from "react";
-import {isLoggedin} from "../../Common/constants";
+import qs from "qs";
+import axios from "axios";
+import { BaseURLUser } from "../../Common/constants";
+import { Link, Navigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 export default function AdPost() {
-  const [isLoggedIn, setIsLoggedIn] = useState(sessionStorage.getItem('isLoggedIn'))
-
-  if(isLoggedIn===false || isLoggedIn===null || isLoggedIn===undefined || !sessionStorage.getItem("isLoggedIn") || !sessionStorage.getItem("isLoggedIn")==null || !sessionStorage.getItem("isLoggedIn")==undefined){
-    return(<Navigate to="/login"/>)
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    sessionStorage.getItem("isLoggedIn")
+  );
+  let [categories, setCategories] = useState([]);
+  let [terms, setTerms] = useState(false);
+  useEffect(() => {
+    axios
+      .post(`${BaseURLUser}listCategories`, qs.stringify(), {
+        headers: { "Contact-Type": "application/x-www-form-urlencoded" },
+      })
+      .then((data) => {
+        console.log(data);
+        setCategories(data.data.categories);
+      });
+  }, []);
+  if (
+    isLoggedIn === false ||
+    isLoggedIn === null ||
+    isLoggedIn === undefined ||
+    !sessionStorage.getItem("isLoggedIn") ||
+    !sessionStorage.getItem("isLoggedIn") == null ||
+    !sessionStorage.getItem("isLoggedIn") == undefined
+  ) {
+    return <Navigate to="/login" />;
   }
+
   return (
     <>
+
       <section className="ad-post bg-gray py-5">
         <div className="container">
-          <form action="#" >
-          
+          <form action="#">
             <fieldset className="border rounded shadow p-4 mb-5 bg-white">
               <div className="row">
                 <div className="col-lg-12">
                   <h3>Post Your ad</h3>
                 </div>
-                
+
                 <div className="col-lg-6">
                   <h6 className="font-weight-bold pt-4 pb-1">Title Of Ad:</h6>
                   <input
@@ -35,7 +58,7 @@ export default function AdPost() {
                         value="new"
                         id="new"
                       />
-                      <label for="new" className="py-2 px-2">
+                      <label htmlFor="new" className="py-2 px-2">
                         New
                       </label>
                     </div>
@@ -46,7 +69,7 @@ export default function AdPost() {
                         value="used"
                         id="used"
                       />
-                      <label for="used" className="py-2 px-2">
+                      <label htmlFor="used" className="py-2 px-2">
                         Used
                       </label>
                     </div>
@@ -65,27 +88,19 @@ export default function AdPost() {
                     Select Ad Category:
                   </h6>
                   <select name="" id="inputGroupSelect" className=" p-2 w-100">
-                    <option value="1">Select category</option>
-                    <option value="2">Laptops</option>
-                    <option value="3">iphone</option>
-                    <option value="4">microsoft</option>
-                    <option value="5">monitors</option>
-                    <option value="6">11inch Macbook Air</option>
-                    <option value="7">Study Table Combo</option>
-                    <option value="8">11inch Macbook Air</option>
-                    <option value="9">Study Table Combo</option>
-                    <option value="10">11inch Macbook Air</option>
+                    <option value="">Select category</option>
+                    {categories.map((category,index) => (
+                      <option key={index+1} value={category.id}>{category.name}</option>
+                    ))}
                   </select>
                   <div className="price">
-                    <h6 className="font-weight-bold pt-4 pb-1">
-                      Item Price :
-                    </h6>
+                    <h6 className="font-weight-bold pt-4 pb-1">Item Price :</h6>
                     <div className="row px-3">
                       <div className="col-lg-4 mr-lg-4 rounded bg-white my-2 ">
                         <input
                           type="text"
                           name="price"
-                          className="border-0 py-2 w-100 price"
+                          className="border-1 rounded py-2 w-100 price"
                           placeholder="Price"
                           id="price"
                         />
@@ -96,23 +111,16 @@ export default function AdPost() {
                           value="Negotiable"
                           id="Negotiable"
                         />
-                        <label for="Negotiable" className="py-2">
+                        <label htmlFor="Negotiable" className="py-2">
                           Negotiable
                         </label>
                       </div>
                     </div>
                   </div>
                   <div className="choose-file text-center my-4 py-4 rounded">
-                    <label for="file-upload">
-                      <span className="d-block font-weight-bold text-dark">
-                        Drop files anywhere to upload
-                      </span>
-                      <span className="d-block">or</span>
+                    <label htmlFor="file-upload">
                       <span className="d-block btn bg-primary text-white my-3 select-files">
                         Select files
-                      </span>
-                      <span className="d-block">
-                        Maximum upload file size: 500 KB
                       </span>
                       <input
                         type="file"
@@ -122,48 +130,13 @@ export default function AdPost() {
                       />
                     </label>
                   </div>
+
                 </div>
               </div>
+                 
+              
             </fieldset>
             {/* <!-- Post Your ad end --> */}
-
-            {/* <!-- seller-information start --> */}
-            <fieldset className="border p-4 my-5 seller-information bg-gray">
-              <div className="row">
-                <div className="col-lg-12">
-                  <h3>Seller Information</h3>
-                </div>
-                <div className="col-lg-6">
-                  <h6 className="font-weight-bold pt-4 pb-1">Contact Name:</h6>
-                  <input
-                    type="text"
-                    placeholder="Contact name"
-                    className="border w-100 p-2"
-                  />
-                  <h6 className="font-weight-bold pt-4 pb-1">Contact Number:</h6>
-                  <input
-                    type="text"
-                    placeholder="Contact Number"
-                    className="border w-100 p-2"
-                  />
-                </div>
-                <div className="col-lg-6">
-                  <h6 className="font-weight-bold pt-4 pb-1">Contact Name:</h6>
-                  <input
-                    type="email"
-                    placeholder="name@yourmail.com"
-                    className="border w-100 p-2"
-                  />
-                  <h6 className="font-weight-bold pt-4 pb-1">Contact Name:</h6>
-                  <input
-                    type="text"
-                    placeholder="Your address"
-                    className="border w-100 p-2"
-                  />
-                </div>
-              </div>
-            </fieldset>
-            {/* <!-- seller-information end--> */}
 
             {/* <!-- ad-feature start --> */}
             <fieldset className="border bg-white p-4 my-5 ad-feature bg-gray">
@@ -172,10 +145,7 @@ export default function AdPost() {
                   <h3 className="pb-3">
                     Make Your Ad Featured
                     <span className="float-right">
-                      <a
-                        className="text-right font-weight-normal text-success"
-                        
-                      >
+                      <a className="text-right font-weight-normal text-success">
                         What is featured ad ?
                       </a>
                     </span>
@@ -187,7 +157,7 @@ export default function AdPost() {
                     <li>
                       <input type="radio" id="regular-ad" name="adfeature" />
                       <label
-                        for="regular-ad"
+                        htmlFor="regular-ad"
                         className="font-weight-bold text-dark py-1"
                       >
                         Regular Ad
@@ -197,7 +167,7 @@ export default function AdPost() {
                     <li>
                       <input type="radio" id="Featured-Ads" name="adfeature" />
                       <label
-                        for="Featured-Ads"
+                        htmlFor="Featured-Ads"
                         className="font-weight-bold text-dark py-1"
                       >
                         Top Featured Ads
@@ -207,7 +177,7 @@ export default function AdPost() {
                     <li>
                       <input type="radio" id="urgent-Ads" name="adfeature" />
                       <label
-                        for="urgent-Ads"
+                        htmlFor="urgent-Ads"
                         className="font-weight-bold text-dark py-1"
                       >
                         Urgent Ads
@@ -224,7 +194,7 @@ export default function AdPost() {
                     <li>
                       <input type="radio" id="bank-transfer" name="adfeature" />
                       <label
-                        for="bank-transfer"
+                        htmlFor="bank-transfer"
                         className="font-weight-bold text-dark py-1"
                       >
                         Direct Bank Transfer
@@ -237,7 +207,7 @@ export default function AdPost() {
                         name="adfeature"
                       />
                       <label
-                        for="Cheque-Payment"
+                        htmlFor="Cheque-Payment"
                         className="font-weight-bold text-dark py-1"
                       >
                         Cheque Payment
@@ -246,7 +216,7 @@ export default function AdPost() {
                     <li>
                       <input type="radio" id="Credit-Card" name="adfeature" />
                       <label
-                        for="Credit-Card"
+                        htmlFor="Credit-Card"
                         className="font-weight-bold text-dark py-1"
                       >
                         Credit Card
@@ -260,8 +230,15 @@ export default function AdPost() {
 
             {/* <!-- submit button --> */}
             <div className="checkbox d-inline-flex">
-              <input type="checkbox" id="terms-&-condition" className="mt-1" />
-              <label for="terms-&-condition" className="ml-2">
+              <input
+                type="checkbox"
+                id="terms-&-condition"
+                className="mt-1"
+                onClick={() => {
+                  setTerms(!terms);
+                }}
+              />
+              <label htmlFor="terms-&-condition" className="ml-2">
                 By click you must agree with our
                 <span>
                   {" "}

@@ -1,11 +1,47 @@
 import axios from "axios";
 import { Navigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import qs from "qs";
 import "react-toastify/dist/ReactToastify.css";
+import ClipLoader from "react-spinners/ClipLoader";
+
+const css = `
+  display: block;
+  margin: 0 auto;
+  border-color: red;
+  position:fixed;
+  top:45%;
+  left:45%;
+  z-index:1;
+`;
 
 export default function Register() {
+  let [loading, setLoading] = useState(false);
+  let [color, setColor] = useState("#ffffff");
+  // const constructor = ()=>{
+  //   console.log("IN COST")
+  // }
+  const [allstates, setAllStates] = useState([]);
+  const getAllCountries = () => {
+    axios
+      .post("https://countriesnow.space/api/v0.1/countries/states", {
+        country: "India",
+      })
+      .then((data) => {
+        if (!data.data.error) {
+          setAllStates(data.data.data.states);
+        } else {
+          //dangerNotify(data.data.message);
+        }
+      })
+      .catch((erro) => console.log(erro));
+  };
+  useEffect(() => {
+    getAllCountries();
+  }, []);
+
+  const [allcities, setallcities] = useState([]);
   let [name, setName] = useState("");
   const saveName = (e) => {
     setName(e.target.value);
@@ -29,7 +65,24 @@ export default function Register() {
   };
   let [state, setState] = useState("");
   const saveState = (e) => {
+    setLoading(!loading);
+
     setState(e.target.value);
+    axios
+      .post("https://countriesnow.space/api/v0.1/countries/state/cities", {
+        country: "India",
+        state: e.target.value,
+      })
+      .then((data) => {
+        setLoading(loading);
+        if (!data.data.error) {
+          console.log("CITIES", data.data.data);
+          setallcities(data.data.data);
+        } else {
+          //dangerNotify(data.data.message);
+        }
+      })
+      .catch((erro) => console.log(erro));
   };
 
   let [city, setCity] = useState("");
@@ -43,16 +96,6 @@ export default function Register() {
   const saveGender = (e) => {
     setGender(e.target.value);
   };
-
-  let [img, setImg] = useState("");
-  const saveImg = (e) => {
-    setImg(e.target.value);
-  };
-
-  function validation(data) {
-    if (data.name === undefined || data.name === "") {
-    }
-  }
 
   const dangerNotify = (data) => {
     toast.error(data, {
@@ -89,7 +132,6 @@ export default function Register() {
       number: number,
       state: state,
       city: city,
-      img: img,
       gender: gender.target.value,
     };
     if (tc === "false") {
@@ -115,11 +157,10 @@ export default function Register() {
               setState("");
               setCity("");
               setGender("");
-              setImg("");
             }
             if (data.data.success) {
               successNotify();
-              return(<Navigate to="/login"/>);
+              return <Navigate to="/login" />;
             } else {
               dangerNotify(data.data.message);
             }
@@ -134,6 +175,8 @@ export default function Register() {
   return (
     <>
       <section className="login py-5 border-top-1">
+        <ClipLoader color={color} loading={loading} css={css} size={100} />
+
         <div className="container">
           <div className="row justify-content-center">
             <div className="col-lg-6 col-md-8 align-item-center">
@@ -177,28 +220,23 @@ export default function Register() {
                       placeholder="Confirm Password"
                       className="form-control border p-3 w-100 my-2"
                     />
-                    <input
-                      type="text"
-                      value={state}
-                      placeholder="State"
+                    <select
                       onChange={saveState}
                       className="form-control border p-3 w-100 my-2"
-                    />
-                    <input
-                      type="text"
-                      value={city}
-                      placeholder="City"
+                    >
+                      {allstates.map((state, index) => (
+                        <option key={index}>{state.name}</option>
+                      ))}
+                    </select>
+                    <select
                       onChange={saveCity}
                       className="form-control border p-3 w-100 my-2"
-                    />
-                    <input
-                      type="file"
-                      value={img}
-                      placeholder="City"
-                      onChange={saveImg}
-                      className="bform-control-file order p-3 w-100 my-2"
-                      accept="image/png, image/jpeg, image/jpg"
-                    />
+                    >
+                      {allcities.map((city, index) => (
+                        <option key={index}>{city}</option>
+                      ))}
+                    </select>
+
                     <div className="form-group pl-3">
                       <div className="form-check form-check-inline ">
                         <input

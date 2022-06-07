@@ -18,12 +18,14 @@ exports.register = (req, res) => {
     req.body.password == undefined ||
     req.body.password == ""
   ) {
+    console.log(req.body);
     res.json({
       message: "Please fill the form",
       satus: 204,
       success: false,
     });
   } else {
+    console.log(req.body);
     userModel.findOne({ email: req.body.email }).then((udata) => {
       if (udata != null) {
         if (udata.isBlocked == true) {
@@ -434,7 +436,8 @@ exports.updateInfo=(req,res)=>{
       message: "Info Updated",
       status: 200,
       success: true,
-    }).catch((err)=>{
+    })
+  }).catch((err)=>{
       res.json({
         message: "Error",
         status: 500,
@@ -442,7 +445,7 @@ exports.updateInfo=(req,res)=>{
         error: String(err)
       })
     })
-  })
+  
 }
 
 

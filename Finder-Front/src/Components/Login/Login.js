@@ -62,7 +62,7 @@ export default function Login() {
     }
   }, []);
 
-  useEffect(() => {});
+  
 
   const Login = (e) => {
     e.preventDefault();

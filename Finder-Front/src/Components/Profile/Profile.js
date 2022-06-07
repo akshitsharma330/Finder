@@ -56,7 +56,7 @@ export default function Profile() {
   };
   const updateInfo = (e)=>{
     e.preventDefault();
-    if(sessionStorage.getItem("uname")===name || sessionStorage.getItem("phone")===phone){
+    if(sessionStorage.getItem("uname")===name && sessionStorage.getItem("phone")===phone){
       alert("No Changes Made");
     }
     else{
