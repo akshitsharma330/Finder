@@ -1,13 +1,18 @@
+import axios from "axios";
 import {useEffect, useState} from "react";
 import {Link, Navigate} from "react-router-dom";
 export default function Dashboard() {
   var [isLoggedIn, setIsLoggedIn] = useState(sessionStorage.getItem("isLoggedIn"));
+  var [posts, setPosts] = useState(sessionStorage.getItem("posts"));
   useEffect(()=>{
     setIsLoggedIn(sessionStorage.getItem("isLoggedIn"));
-  })
+    axios.post()
+
+  },[])
   if(!isLoggedIn || isLoggedIn == undefined || isLoggedIn == null){
     return(<Navigate to="/dashboard"/>)
   }
+
 
   
 

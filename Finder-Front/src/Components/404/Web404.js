@@ -1,3 +1,4 @@
+import {Link} from "react-router-dom";
 export default function Web404() {
   return (
     <>
@@ -14,9 +15,9 @@ export default function Web404() {
                   Something went wrong,we can't find the page that you are
                   looking for :(But there is a lot more for you!
                 </p>
-                <a href="index.html" className="btn btn-info">
+                <Link to="/" className="btn btn-info">
                   GO HOME
-                </a>
+                </Link>
               </div>
             </div>
           </div>

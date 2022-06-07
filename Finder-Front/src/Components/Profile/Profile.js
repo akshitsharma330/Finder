@@ -32,6 +32,8 @@ export default function Profile() {
   };
   const updatePic=(e)=>{
     e.preventDefault();
+    let formData = new FormData();
+    formData.append("image", img);
 
   }
 

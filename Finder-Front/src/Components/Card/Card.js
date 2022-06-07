@@ -1,4 +1,10 @@
+import {BaseURLUser} from "../../Common/constants";
+import axios from "axios";
+import {useEffect, useState} from "react";
+import {Navigate, useParams, Link} from "react-router-dom";
+
 export default function Card(props) {
+
   return (
     <>
       <div className="col-sm-6 col-lg-3 col-xl-3 col-md-4 col-2 ">
@@ -6,33 +12,25 @@ export default function Card(props) {
         <div className="product-item bg-light shadow">
           <div className="card">
             <div className="thumb-content">
-              <div className="price">$200</div>
-              <a href="single.html">
+              <div className="price">₹ {" "}{props.price}</div>
+              <Link to = {{pathname:`/${props.id}`}} >
                 <img
                   className="card-img-top img-fluid"
-                  src="assets/images/products/products-2.jpg"
+                  src={BaseURLUser+"/images/post/"+props.img}
                   alt="Card image cap"
                 />
-              </a>
+                </Link>
+              
             </div>
             <div className="card-body">
+            <Link to = {{pathname:`/${props.id}`}} >
               <h4 className="card-title">
-                <a href="single.html">Study Table Combo</a>
+                {props.name}
               </h4>
-              <ul className="list-inline product-meta">
-                <li className="list-inline-item">
-                  <a href="single.html">
-                    <i className="fa fa-folder-open-o"></i>Furnitures
-                  </a>
-                </li>
-                <li className="list-inline-item">
-                  <a href="#">
-                    <i className="fa fa-calendar"></i>26th December
-                  </a>
-                </li>
-              </ul>
+              </Link>
+              
               <p className="card-text">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed dods,fjksj
+                {props.des}
               </p>
               
             </div>

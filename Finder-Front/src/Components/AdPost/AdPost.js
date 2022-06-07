@@ -1,5 +1,5 @@
 import qs from "qs";
-import {toast, ToastContainer}  from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
 import { BaseURLUser } from "../../Common/constants";
 import { Link, Navigate } from "react-router-dom";
@@ -8,16 +8,61 @@ export default function AdPost() {
   const [isLoggedIn, setIsLoggedIn] = useState(
     sessionStorage.getItem("isLoggedIn")
   );
-  var [title, setTitle] = useState("")
-  const saveTitle=(e)=>{
-    setTitle(e.target.value)
-  } 
-  var [description, setDescription] = useState("")
-  const saveDescription=(e)=>{
-    setDescription(e.target.value)
-  }
+  var [title, setTitle] = useState("");
+  const saveTitle = (e) => {
+    setTitle(e.target.value);
+  };
+  var [description, setDescription] = useState("");
+  const saveDescription = (e) => {
+    setDescription(e.target.value);
+  };
   let [categories, setCategories] = useState([]);
   let [terms, setTerms] = useState(false);
+  const [allstates, setAllStates] = useState([]);
+  const getAllCountries = () => {
+    axios
+      .post("https://countriesnow.space/api/v0.1/countries/states", {
+        country: "India",
+      })
+      .then((data) => {
+        if (!data.data.error) {
+          setAllStates(data.data.data.states);
+        } else {
+          //dangerNotify(data.data.message);
+        }
+      })
+      .catch((erro) => console.log(erro));
+  };
+  useEffect(() => {
+    getAllCountries();
+  }, []);
+  const [allcities, setallcities] = useState([]);
+  let [state, setState] = useState("");
+  const saveState = (e) => {
+
+    setState(e.target.value);
+    axios
+      .post("https://countriesnow.space/api/v0.1/countries/state/cities", {
+        country: "India",
+        state: e.target.value,
+      })
+      .then((data) => {
+        
+        if (!data.data.error) {
+          console.log("CITIES", data.data.data);
+          setallcities(data.data.data);
+        } else {
+          //dangerNotify(data.data.message);
+        }
+      })
+      .catch((erro) => console.log(erro));
+  };
+
+  let [city, setCity] = useState("");
+  const saveCity = (e) => {
+    setCity(e.target.value);
+  };
+
   useEffect(() => {
     axios
       .post(`${BaseURLUser}listCategories`, qs.stringify(), {
@@ -38,11 +83,11 @@ export default function AdPost() {
   ) {
     return <Navigate to="/login" />;
   }
-  
+
   const onSaveForm = (e) => {
     e.preventDefault();
-    if(!terms){
-      toast.error("Please Accept Terms and Conditions",{
+    if (!terms) {
+      toast.error("Please Accept Terms and Conditions", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -50,14 +95,12 @@ export default function AdPost() {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-
       });
       return;
-      
     }
-    let form = new  FormData();
-    if(!terms){
-      toast.error("Must Accept terms and conditions",{
+    let form = new FormData();
+    if (!terms) {
+      toast.error("Must Accept terms and conditions", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -65,9 +108,8 @@ export default function AdPost() {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-
-      })
-      return
+      });
+      return;
     }
     form.append("user_id", sessionStorage.getItem("uinfoId"));
     form.append("title", title);
@@ -80,25 +122,50 @@ export default function AdPost() {
     console.log(e.target.file.files);
     form.append("image", e.target.file.files[0]);
     form.append("userId", sessionStorage.getItem("userId"));
-    console.log(form) 
-    axios.post(`${BaseURLUser}addPost`, form, {}).then((data) => {
-      console.log(data);
-      if (data.data.status === true) {
-        alert("Ad Posted Successfully");
-        // Navigate("/");
-      }
-    }).catch((err) => {
-      console.log(err)
-    })
-  }
+    console.log(form);
+    axios
+      .post(`${BaseURLUser}addPost`, form, {})
+      .then((data) => {
+        console.log(data);
+        if (data.data.success) {
+          toast.success(data.data.message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        } else {
+          toast.error(data.data.message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <>
-    <ToastContainer />
+      <ToastContainer />
 
       <section className="ad-post bg-gray py-5">
         <div className="container">
-          <form action="#" onSubmit={onSaveForm} id="formtoSave" encType="multipart/form-data">
+          <form
+            action="#"
+            onSubmit={onSaveForm}
+            id="formtoSave"
+            encType="multipart/form-data"
+          >
             <fieldset className="border rounded shadow p-4 mb-5 bg-white">
               <div className="row">
                 <div className="col-lg-12">
@@ -114,6 +181,7 @@ export default function AdPost() {
                     name="title"
                     className=" border w-100 rounded form-control   text-capitalize"
                     placeholder="Ad title go There"
+                    required
                   />
                   <h6 className="font-weight-bold pt-4 pb-1">Ad Type:</h6>
                   <div className="row px-3">
@@ -147,16 +215,24 @@ export default function AdPost() {
                     className="border p-3 w-100"
                     rows="7"
                     placeholder="Write details about your product"
+                    required
                   ></textarea>
                 </div>
                 <div className="col-lg-6">
                   <h6 className="font-weight-bold pt-4 pb-1">
                     Select Ad Category:
                   </h6>
-                  <select name="category" id="inputGroupSelect" className=" p-2 w-100">
+                  <select
+                    name="category"
+                    id="inputGroupSelect"
+                    className=" p-2 w-100"
+                    required
+                  >
                     <option value="">Select category</option>
-                    {categories.map((category,index) => (
-                      <option key={index+1} value={category._id}>{category.name}</option>
+                    {categories.map((category, index) => (
+                      <option key={index + 1} value={category._id}>
+                        {category.name}
+                      </option>
                     ))}
                   </select>
                   <div className="price">
@@ -186,116 +262,40 @@ export default function AdPost() {
                   </div>
                   <div className="choose-file text-center my-4 py-4 rounded">
                     <label htmlFor="file-upload">
-                      <span className="d-block btn bg-primary text-white my-3 select-files">
-                        Select files
-                      </span>
+                      <h3>File Upload</h3>
+                      
                       <input
                         type="file"
-                        className="form-control-file d-none"
+                        className="form-control-file"
                         id="file-upload"
                         name="file"
                         multiple="multiple"
-                        
                       />
                     </label>
-                  </div>
 
+                  </div>
+                  <select
+                      onChange={saveState}
+                      className="form-control border p-3 w-100 my-2"
+                    >
+                      {allstates.map((state, index) => (
+                        <option key={index}>{state.name}</option>
+                      ))}
+                    </select>
+                    <select
+                      onChange={saveCity}
+                      className="form-control border p-3 w-100 my-2"
+                    >
+                      {allcities.map((city, index) => (
+                        <option key={index}>{city}</option>
+                      ))}
+                    </select>
                 </div>
               </div>
-                 
-              
             </fieldset>
             {/* <!-- Post Your ad end --> */}
 
-            {/* <!-- ad-feature start --> */}
-            <fieldset className="border bg-white p-4 my-5 ad-feature bg-gray">
-              <div className="row">
-                <div className="col-lg-12">
-                  <h3 className="pb-3">
-                    Make Your Ad Featured
-                    <span className="float-right">
-                      <a className="text-right font-weight-normal text-success">
-                        What is featured ad ?
-                      </a>
-                    </span>
-                  </h3>
-                </div>
-                <div className="col-lg-6 my-3">
-                  <span className="mb-3 d-block">Premium Ad Options:</span>
-                  <ul>
-                    <li>
-                      <input type="radio" id="regular-ad" name="adfeature" />
-                      <label
-                        htmlFor="regular-ad"
-                        className="font-weight-bold text-dark py-1"
-                      >
-                        Regular Ad
-                      </label>
-                      <span>$00.00</span>
-                    </li>
-                    <li>
-                      <input type="radio" id="Featured-Ads" name="adfeature" />
-                      <label
-                        htmlFor="Featured-Ads"
-                        className="font-weight-bold text-dark py-1"
-                      >
-                        Top Featured Ads
-                      </label>
-                      <span>$59.00</span>
-                    </li>
-                    <li>
-                      <input type="radio" id="urgent-Ads" name="adfeature" />
-                      <label
-                        htmlFor="urgent-Ads"
-                        className="font-weight-bold text-dark py-1"
-                      >
-                        Urgent Ads
-                      </label>
-                      <span>$79.00</span>
-                    </li>
-                  </ul>
-                </div>
-                <div className="col-lg-6 my-3">
-                  <span className="mb-3 d-block">
-                    Please select the preferred payment method:
-                  </span>
-                  <ul>
-                    <li>
-                      <input type="radio" id="bank-transfer" name="adfeature" />
-                      <label
-                        htmlFor="bank-transfer"
-                        className="font-weight-bold text-dark py-1"
-                      >
-                        Direct Bank Transfer
-                      </label>
-                    </li>
-                    <li>
-                      <input
-                        type="radio"
-                        id="Cheque-Payment"
-                        name="adfeature"
-                      />
-                      <label
-                        htmlFor="Cheque-Payment"
-                        className="font-weight-bold text-dark py-1"
-                      >
-                        Cheque Payment
-                      </label>
-                    </li>
-                    <li>
-                      <input type="radio" id="Credit-Card" name="adfeature" />
-                      <label
-                        htmlFor="Credit-Card"
-                        className="font-weight-bold text-dark py-1"
-                      >
-                        Credit Card
-                      </label>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </fieldset>
-            {/* <!-- ad-feature start --> */}
+           
 
             {/* <!-- submit button --> */}
             <div className="checkbox d-inline-flex">

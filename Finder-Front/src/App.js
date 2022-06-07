@@ -10,6 +10,7 @@ import Login from "./Components/Login/Login";
 import Register from "./Components/Register/Register";
 import Web404 from "./Components/404/Web404";
 import Profile from "./Components/Profile/Profile";
+import ItemByCategory from "./Components/ItemByCategory/ItemByCategory";
 // import Temp from "./Components/Temp/Temp";
 
 
@@ -27,6 +28,8 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/adView" element={<AdView />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/:name/:id" element={<ItemByCategory />} />
+            <Route path ="/post/:id" element={<AdView/>} />
           </Route>
             <Route path="/login" element={<Login />} />
             <Route path="/Register" element={<Register />} />

@@ -36,11 +36,11 @@ export default function Navbar() {
         <div className="container">
           <div className="row">
             <div className="col-md-12">
-              <nav className="navbar navbar-expand-lg navbar-light navigation">
+              <nav className="navbar navbar-expand-lg navbar-light navigation ">
                 <Link className="navbar-brand" to="/">
                   <img
                     className="img-responsive rounded "
-                    src="assets/images/finder-logo.jpeg"
+                    src="/assets/images/finder-logo.jpeg"
                     height="90"
                     alt=""
                   />
@@ -86,7 +86,7 @@ export default function Navbar() {
                             <Link
                               className="dropdown-item"
                               key={index}
-                              to={`/category/${ele._id}`}
+                              to={{pathname:`/${ele.name}/${ele._id}`}}
                             >
                               {ele.name}
                             </Link>
@@ -94,32 +94,7 @@ export default function Navbar() {
                         )}
                       </div>
                     </li>
-                    <li className="nav-item dropdown dropdown-slide">
-                      <a
-                        className="nav-link dropdown-toggle"
-                        href=""
-                        data-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false"
-                      >
-                        Listing{" "}
-                        <span>
-                          <i className="fa fa-angle-down"></i>
-                        </span>
-                      </a>
-                      {/* <!-- Dropdown list --> */}
-                      <div className="dropdown-menu">
-                        <a className="dropdown-item" href="category.html">
-                          Ad-Gird View
-                        </a>
-                        <a
-                          className="dropdown-item"
-                          href="ad-listing-list.html"
-                        >
-                          Ad-List View
-                        </a>
-                      </div>
-                    </li>
+                   
                     <li className="nav-item active">
                       <Link className="nav-link" to="/contact-us">
                         Contact-us

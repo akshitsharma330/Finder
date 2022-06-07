@@ -39,6 +39,7 @@ router.post("/updatePassword",userController.updatePassword)
 router.post("/updateInfo",userController.updateInfo)
 router.post("/searchPost",postController.searchPost)
 router.post("/listSubCategories", subCatController.listSubCategories)
+router.post("/listPostsByCategory", postController.listPostsByCategory)
 
 // router.post("/updatePic",userController.updatePic)
 
