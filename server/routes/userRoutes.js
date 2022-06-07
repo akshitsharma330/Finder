@@ -2,6 +2,7 @@ const router = require("express").Router();
 const userController = require("../apis/user/userController");
 const postController = require("../apis/post/postController");
 const catController = require("../apis/categories/catController");
+const subCatController = require("../apis/categories/subCatController");
 const multer = require("multer");
 const path = require("path");
 const storage=multer.diskStorage({
@@ -15,13 +16,30 @@ const storage=multer.diskStorage({
   }
 })
 const upload=multer({storage: storage})
+
+const storage1=multer.diskStorage({
+  destination: function(req,file,cb){
+    // console.log(req)
+    cb(null,"server/public/images/post")
+  },
+  filename:function(req,file,cb){
+    let extension = path.extname(file.originalname)
+    const newname = "post-"+Date.now()+ extension;
+    cb(null,newname)
+  }
+})
+const upload1=multer({storage: storage1})
 router.post("/listCategories", catController.listCategories)
 router.post("/register",upload.single("profile"),userController.register)
 
 router.post('/login',userController.login)
 // router.use(require('../common/usermiddleware'))
-router.post("/addPost",postController.addPost)
+router.post("/addPost",upload1.array("image",4),postController.addpost)
 router.post("/updatePassword",userController.updatePassword)
 router.post("/updateInfo",userController.updateInfo)
+router.post("/searchPost",postController.searchPost)
+router.post("/listSubCategories", subCatController.listSubCategories)
+
+// router.post("/updatePic",userController.updatePic)
 
 module.exports = router;

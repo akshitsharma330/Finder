@@ -90,6 +90,19 @@ exports.deleteSubCategory=(req,res)=>{
     }
     
 }
+exports.listSubCategories = (req,res)=>{
+    subCategory.find({cat_Id:req.body.catId})
+    .then(data=>{
+        res.json({
+            "message":"All subcategories",
+            "status":200,
+            "success":true,
+            subCategories:data
+        })
+    })
+    
+
+}
 
 // exports.updateSubcategory=(req,res)=>{
 //     subCategory.findOne({'_id':req.body._id})

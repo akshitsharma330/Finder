@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const postController = require('../apis/post/postController');
 
 const userController = require("../apis/user/userController");
 const catController = require("../apis/categories/catController");
@@ -21,6 +22,8 @@ router.post("/deleteCategory",catController.deleteCategory)
 router.post("/listSubCategories",subCatController.listSubCategories)
 router.post("/addSubCategory",subCatController.addSubCategory)
 router.post("/deleteSubCategory",subCatController.deleteSubCategory)
+router.post("/listPosts",postController.listPosts)
+router.post("/deletePost",postController.deletePost)
 
 
 

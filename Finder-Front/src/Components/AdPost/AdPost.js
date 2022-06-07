@@ -1,4 +1,5 @@
 import qs from "qs";
+import {toast, ToastContainer}  from "react-toastify";
 import axios from "axios";
 import { BaseURLUser } from "../../Common/constants";
 import { Link, Navigate } from "react-router-dom";
@@ -7,6 +8,14 @@ export default function AdPost() {
   const [isLoggedIn, setIsLoggedIn] = useState(
     sessionStorage.getItem("isLoggedIn")
   );
+  var [title, setTitle] = useState("")
+  const saveTitle=(e)=>{
+    setTitle(e.target.value)
+  } 
+  var [description, setDescription] = useState("")
+  const saveDescription=(e)=>{
+    setDescription(e.target.value)
+  }
   let [categories, setCategories] = useState([]);
   let [terms, setTerms] = useState(false);
   useEffect(() => {
@@ -29,13 +38,67 @@ export default function AdPost() {
   ) {
     return <Navigate to="/login" />;
   }
+  
+  const onSaveForm = (e) => {
+    e.preventDefault();
+    if(!terms){
+      toast.error("Please Accept Terms and Conditions",{
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+
+      });
+      return;
+      
+    }
+    let form = new  FormData();
+    if(!terms){
+      toast.error("Must Accept terms and conditions",{
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+
+      })
+      return
+    }
+    form.append("user_id", sessionStorage.getItem("uinfoId"));
+    form.append("title", title);
+    form.append("description", e.target.description.value);
+    form.append("cat_Id", e.target.category.value);
+    // form.append("subCategory", e.target.subCategory.value);
+    form.append("price", e.target.price.value);
+    form.append("negotiable", true);
+    form.append("featured", false);
+    console.log(e.target.file.files);
+    form.append("image", e.target.file.files[0]);
+    form.append("userId", sessionStorage.getItem("userId"));
+    console.log(form) 
+    axios.post(`${BaseURLUser}addPost`, form, {}).then((data) => {
+      console.log(data);
+      if (data.data.status === true) {
+        alert("Ad Posted Successfully");
+        // Navigate("/");
+      }
+    }).catch((err) => {
+      console.log(err)
+    })
+  }
 
   return (
     <>
+    <ToastContainer />
 
       <section className="ad-post bg-gray py-5">
         <div className="container">
-          <form action="#">
+          <form action="#" onSubmit={onSaveForm} id="formtoSave" encType="multipart/form-data">
             <fieldset className="border rounded shadow p-4 mb-5 bg-white">
               <div className="row">
                 <div className="col-lg-12">
@@ -46,6 +109,9 @@ export default function AdPost() {
                   <h6 className="font-weight-bold pt-4 pb-1">Title Of Ad:</h6>
                   <input
                     type="text"
+                    onChange={saveTitle}
+                    value={title}
+                    name="title"
                     className=" border w-100 rounded form-control   text-capitalize"
                     placeholder="Ad title go There"
                   />
@@ -76,7 +142,7 @@ export default function AdPost() {
                   </div>
                   <h6 className="font-weight-bold pt-4 pb-1">Description:</h6>
                   <textarea
-                    name=""
+                    name="description"
                     id=""
                     className="border p-3 w-100"
                     rows="7"
@@ -87,10 +153,10 @@ export default function AdPost() {
                   <h6 className="font-weight-bold pt-4 pb-1">
                     Select Ad Category:
                   </h6>
-                  <select name="" id="inputGroupSelect" className=" p-2 w-100">
+                  <select name="category" id="inputGroupSelect" className=" p-2 w-100">
                     <option value="">Select category</option>
                     {categories.map((category,index) => (
-                      <option key={index+1} value={category.id}>{category.name}</option>
+                      <option key={index+1} value={category._id}>{category.name}</option>
                     ))}
                   </select>
                   <div className="price">
@@ -110,6 +176,7 @@ export default function AdPost() {
                           type="checkbox"
                           value="Negotiable"
                           id="Negotiable"
+                          name="Negotiable"
                         />
                         <label htmlFor="Negotiable" className="py-2">
                           Negotiable
@@ -127,6 +194,8 @@ export default function AdPost() {
                         className="form-control-file d-none"
                         id="file-upload"
                         name="file"
+                        multiple="multiple"
+                        
                       />
                     </label>
                   </div>

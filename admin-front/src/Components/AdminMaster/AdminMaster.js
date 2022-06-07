@@ -114,6 +114,33 @@ export default class AdminMaster extends Component {
                 </div>
               </div>
             </li>
+            <li className="nav-item">
+              <a
+                className="nav-link collapsed"
+                href="#"
+                data-toggle="collapse"
+                data-target="#collapsePosts"
+                aria-expanded="true"
+                aria-controls="collapseUtilities"
+              >
+                <i className="fas fa-fw fa-wrench"></i>
+                <span>Posts</span>
+              </a>
+              <div
+                id="collapsePosts"
+                className="collapse"
+                aria-labelledby="headingUtilities"
+                data-parent="#accordionSidebar"
+              >
+                <div className="bg-white py-2 collapse-inner rounded">
+                  <Link to="/listPosts" className="collapse-item" href="utilities-color.html">
+                    List Posts
+                  </Link >
+                  
+                </div>
+              </div>
+            </li>
+            
 
            
 

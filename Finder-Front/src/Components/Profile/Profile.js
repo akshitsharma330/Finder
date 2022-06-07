@@ -30,6 +30,10 @@ export default function Profile() {
   const toggleCPass = () => {
     setShowCPass(!showCPass);
   };
+  const updatePic=(e)=>{
+    e.preventDefault();
+
+  }
 
   const updatePassword = (e) => {
     e.preventDefault();
@@ -89,7 +93,7 @@ export default function Profile() {
                 <div className="widget user">
                   {/* <!-- User Image --> */}
                   <div className="image d-flex justify-content-center">
-                    <img src="images/user/user-thumb.jpg" alt="" className="" />
+                    <img src={`${BaseURLUser}images/dp/default.jpg`} alt="" className="" />
                   </div>
                   {/* <!-- User Name --> */}
                   <h5 className="text-center">
@@ -130,6 +134,22 @@ export default function Profile() {
               </div>
               {/* <!-- Edit Personal Info --> */}
               <div className="row">
+
+              <div className="col-lg-6 col-md-6">
+                  <div className="widget personal-info">
+                    <h3 className="widget-header user">
+                      Profile Picture
+                    </h3>
+                    <form action="#" onSubmit={updatePic}>
+                      <input className="form-control border-0" type="file" />
+                      
+                      <button className="btn btn-transparent p-1">
+                        Update Pic
+                      </button>
+                    </form>
+                  </div>
+                </div>
+                
                 <div className="col-lg-6 col-md-6">
                   <div className="widget personal-info">
                     <h3 className="widget-header user">

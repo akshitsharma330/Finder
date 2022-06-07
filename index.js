@@ -8,6 +8,7 @@ const cors = require("cors");
 app.use(cors());
 seed.insertUser()
 // to handle the request body parse into post method
+app.use(express.static(__dirname+"/server/public"))
 app.use(express.urlencoded({ extended: false }));
 
 app.use("/", userRoutes);

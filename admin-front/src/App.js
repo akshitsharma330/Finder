@@ -10,6 +10,7 @@ import ListCategories from "./Components/ListCategories/ListCategories";
 import ListSubCategories from "./Components/ListSubCategories/ListSubCategories";
 import AddSubCategory from "./Components/AddSubCategory/AddSubCategory";
 import Page404 from "./Components/Page404/Page404";
+import ListPosts from "./Components/ListPosts/ListPosts";
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 // import './App.css';
 
@@ -31,6 +32,7 @@ export default class App extends react.Component {
         <Route path="listcategories" element={<ListCategories/>}/> 
         <Route path="listsubcategory/:id/:cat" element={<ListSubCategories />}/> 
         <Route path="addSubCategory/:id/:cat" element={<AddSubCategory/>}/>
+        <Route path="listPosts" element={<ListPosts />}/>
         
    
 

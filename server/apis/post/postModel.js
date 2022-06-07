@@ -1,6 +1,6 @@
 var mongoose = require("mongoose");
 var postSchema = mongoose.Schema({
-  user_Id: { type: mongoose.Schema.Types.ObjectId, default: null },
+  user_Id: { type: mongoose.Schema.Types.ObjectId, default: null, ref: 'user' },
   title: { type: String, default: "", required: true },
   description: { type: String, default: "", required: true },
   price : { type: String, default: "0", required: true },
