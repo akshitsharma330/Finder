@@ -8,6 +8,8 @@ export default function AdPost() {
   const [isLoggedIn, setIsLoggedIn] = useState(
     sessionStorage.getItem("isLoggedIn")
   );
+  var [lat, setLat] = useState("");
+  var [long, setLong] = useState("");
   var [title, setTitle] = useState("");
   const saveTitle = (e) => {
     setTitle(e.target.value);
@@ -19,6 +21,14 @@ export default function AdPost() {
   let [categories, setCategories] = useState([]);
   let [terms, setTerms] = useState(false);
   const [allstates, setAllStates] = useState([]);
+  const [allcities, setallcities] = useState([]);
+  let [state, setState] = useState("");
+  let [city, setCity] = useState("");
+  const saveCity = (e) => {
+    setCity(e.target.value);
+  };
+  
+  //getting all countries for country dropdown menu
   const getAllCountries = () => {
     axios
       .post("https://countriesnow.space/api/v0.1/countries/states", {
@@ -32,14 +42,25 @@ export default function AdPost() {
         }
       })
       .catch((erro) => console.log(erro));
-  };
-  useEffect(() => {
-    getAllCountries();
-  }, []);
-  const [allcities, setallcities] = useState([]);
-  let [state, setState] = useState("");
+    };
+    useEffect(() => {
+      //get all country functin call
+      const fetchLocation=()=>{
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(showPosition);
+        } else { 
+          console.log("Error")
+          }
+      }
+      
+      function showPosition(position) {
+        setLat(position.coords.latitude)  ;
+        setLong(position.coords.longitude);
+      }
+      fetchLocation();
+      getAllCountries();
+}, []);
   const saveState = (e) => {
-
     setState(e.target.value);
     axios
       .post("https://countriesnow.space/api/v0.1/countries/state/cities", {
@@ -47,7 +68,6 @@ export default function AdPost() {
         state: e.target.value,
       })
       .then((data) => {
-        
         if (!data.data.error) {
           console.log("CITIES", data.data.data);
           setallcities(data.data.data);
@@ -58,10 +78,6 @@ export default function AdPost() {
       .catch((erro) => console.log(erro));
   };
 
-  let [city, setCity] = useState("");
-  const saveCity = (e) => {
-    setCity(e.target.value);
-  };
 
   useEffect(() => {
     axios
@@ -78,8 +94,8 @@ export default function AdPost() {
     isLoggedIn === null ||
     isLoggedIn === undefined ||
     !sessionStorage.getItem("isLoggedIn") ||
-    !sessionStorage.getItem("isLoggedIn") == null ||
-    !sessionStorage.getItem("isLoggedIn") == undefined
+    !sessionStorage.getItem("isLoggedIn") ===null ||
+    !sessionStorage.getItem("isLoggedIn") === undefined
   ) {
     return <Navigate to="/login" />;
   }
@@ -122,6 +138,8 @@ export default function AdPost() {
     console.log(e.target.file.files);
     form.append("image", e.target.file.files[0]);
     form.append("userId", sessionStorage.getItem("userId"));
+    form.append("lat", lat);
+    form.append("long", long);
     console.log(form);
     axios
       .post(`${BaseURLUser}addPost`, form, {})
@@ -263,7 +281,7 @@ export default function AdPost() {
                   <div className="choose-file text-center my-4 py-4 rounded">
                     <label htmlFor="file-upload">
                       <h3>File Upload</h3>
-                      
+
                       <input
                         type="file"
                         className="form-control-file"
@@ -272,30 +290,27 @@ export default function AdPost() {
                         multiple="multiple"
                       />
                     </label>
-
                   </div>
                   <select
-                      onChange={saveState}
-                      className="form-control border p-3 w-100 my-2"
-                    >
-                      {allstates.map((state, index) => (
-                        <option key={index}>{state.name}</option>
-                      ))}
-                    </select>
-                    <select
-                      onChange={saveCity}
-                      className="form-control border p-3 w-100 my-2"
-                    >
-                      {allcities.map((city, index) => (
-                        <option key={index}>{city}</option>
-                      ))}
-                    </select>
+                    onChange={saveState}
+                    className="form-control border p-3 w-100 my-2"
+                  >
+                    {allstates.map((state, index) => (
+                      <option key={index}>{state.name}</option>
+                    ))}
+                  </select>
+                  <select
+                    onChange={saveCity}
+                    className="form-control border p-3 w-100 my-2"
+                  >
+                    {allcities.map((city, index) => (
+                      <option key={index}>{city}</option>
+                    ))}
+                  </select>
                 </div>
               </div>
             </fieldset>
             {/* <!-- Post Your ad end --> */}
-
-           
 
             {/* <!-- submit button --> */}
             <div className="checkbox d-inline-flex">
@@ -311,7 +326,7 @@ export default function AdPost() {
                 By click you must agree with our
                 <span>
                   {" "}
-                  <a className="text-successterms-condition.html">
+                  <a className="text-successterms-condition" href="#">
                     Terms & Condition and Posting Rules.
                   </a>
                 </span>

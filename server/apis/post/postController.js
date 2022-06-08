@@ -23,9 +23,8 @@ exports.addpost = (req, res) => {
     postObj.featured = req.body.featured;
     postObj.cat_Id = req.body.cat_Id;
     // postObj.subCat_Id = req.body.subCat_Id;
-    postObj.latitude = req.body.latitude != undefined ? req.body.latitude : 0;
-    postObj.longitude =
-      req.body.longitude != undefined ? req.body.longitude : 0;
+    postObj.latitude = req.body.lat != undefined ? req.body.lat : 0;
+    postObj.longitude = req.body.long != undefined ? req.body.long : 0;
     let post = "public/images/post/default.jpg";
     if (req.files != undefined) {
       req.files.forEach((file) => {
@@ -70,20 +69,28 @@ exports.searchPost = (req, res) => {
       ],
     };
   }
-  postModel
-    .find(finder)
-    .then((data) => {
-      res.json({
-        message: "Post Found",
-        status: 200,
-        success: true,
-        post: data,
-      });
+  console.log(JSON.stringify(finder))
+  postModel.find(finder).then((data) => {
+    res.json({
+      message: "Post Found",
+      status: 200,
+      success: true,
+      post: data,
     });
+  });
 };
 exports.listPosts = (req, res) => {
+  let find={}
+  limit=1000000
+  if(req.body!= undefined )
+    find = req.body
+  if(req.body!=undefined && req.body.start!= undefined){
+    limit=10
+    delete find.start
+  }
+
   postModel
-    .find()
+    .find(find)
     .populate("user_Id")
     .then((data) => {
       res.json({
@@ -123,7 +130,7 @@ exports.deletePost = (req, res) => {
       });
     });
 };
-exports.listPostsByCategory = (req,res) => {
+exports.listPostsByCategory = (req, res) => {
   postModel
     .find({ cat_Id: req.body.id })
     .then((data) => {
@@ -137,6 +144,50 @@ exports.listPostsByCategory = (req,res) => {
     .catch((err) => {
       res.json({
         message: "Error while adding",
+        status: 500,
+        success: false,
+        error: String(err),
+      });
+    });
+};
+
+exports.viewPost = (req, res) => {
+  postModel
+    .findOne({ _id: req.body.id })
+    .populate("user_Id")
+    .populate("cat_Id")
+    .then((data) => {
+      res.json({
+        message: "Post Found",
+        status: 200,
+        success: true,
+        post: data,
+      });
+    })
+    .catch((err) => {
+      res.json({
+        message: "Error while adding",
+        status: 500,
+        success: false,
+        error: String(err),
+      });
+    });
+};
+
+exports.makeFeatured = (req, res) => {
+  postModel
+    .updateOne({ _id: req.body.id }, { $set: { featured: true } })
+    .then((data) => {
+      res.json({
+        message: "Post Featured",
+        status: 200,
+        success: true,
+        post: data,
+      });
+    })
+    .catch((err) => {
+      res.json({
+        message: "Error while featuring",
         status: 500,
         success: false,
         error: String(err),

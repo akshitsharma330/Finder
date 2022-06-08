@@ -13,7 +13,7 @@ export default function Card(props) {
           <div className="card">
             <div className="thumb-content">
               <div className="price">₹ {" "}{props.price}</div>
-              <Link to = {{pathname:`/${props.id}`}} >
+              <Link to = {{pathname:`/adview/${props.id}`}} >
                 <img
                   className="card-img-top img-fluid"
                   src={BaseURLUser+"/images/post/"+props.img}

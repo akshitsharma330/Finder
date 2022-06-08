@@ -15,6 +15,7 @@ import ItemByCategory from "./Components/ItemByCategory/ItemByCategory";
 
 
 import AdView from "./Components/AdView/AdView";
+import ItemByTitle from "./Components/ItemByCategory/itembytitle";
 function App() {
   return (
     <>
@@ -26,10 +27,11 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/adPost" element={<AdPost />} />
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/adView" element={<AdView />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/:name/:id" element={<ItemByCategory />} />
-            <Route path ="/post/:id" element={<AdView/>} />
+            <Route path ="/adview/:id" element={<AdView/>} />
+            <Route path ="/s/:title/:cId" element={<ItemByTitle/>} />
+            <Route path ="/s/:title" element={<ItemByTitle/>} />
           </Route>
             <Route path="/login" element={<Login />} />
             <Route path="/Register" element={<Register />} />

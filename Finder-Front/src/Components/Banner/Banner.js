@@ -1,4 +1,30 @@
+import { Link, Navigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import qs from "qs";
+import { BaseURLUser } from "../../Common/constants";
+
 export default function Banner() {
+  let [categories, setCategories] = useState([]);
+  const SearchData = (e)=>{
+    e.preventDefault();
+    let title = e.target.title.value;
+    let catId = e.target.catId.value;
+    let url=`s/${title}`;
+    if(catId!="Category" && catId!="0")
+      url = `s/${title}/${catId}`;
+    window.location.assign(url)  
+  }
+  useEffect(() => {
+    axios
+    .post(`${BaseURLUser}listCategories`, qs.stringify(), {
+      headers: { "Contact-Type": "application/x-www-form-urlencoded" },
+    })
+    .then((data) => {
+      console.log(data);
+      setCategories(data.data.categories);
+    });
+  }, []);
   return (
     <>
       <section className="hero-area bg-1 text-center overly">
@@ -45,32 +71,40 @@ export default function Banner() {
                 <div className="container">
                   <div className="row justify-content-center">
                     <div className="col-lg-12 col-md-12 align-content-center">
-                      <form>
+                      <form onSubmit={SearchData}>
                         <div className="form-row">
                           <div className="form-group col-md-4">
                             <input
                               type="text"
                               className="form-control my-2 my-lg-1"
                               id="inputtext4"
+                              name="title"
                               placeholder="What are you looking for"
                             />
                           </div>
                           <div className="form-group col-md-3">
-                            <select className="w-100 form-control mt-lg-1 mt-md-2">
-                              <option>Category</option>
-                              <option value="1">Top rated</option>
-                              <option value="2">Lowest Price</option>
-                              <option value="4">Highest Price</option>
+                            
+                            <select  name="catId" className="w-100 form-control mt-lg-1 mt-md-2">
+                              <option value="0">--------------------</option>
+                                  {categories.map((ele, index) => (
+                                
+                                    <option
+                                      key={index} value={ele._id}
+                                    >
+                                      {ele.name}
+                                      </option>
+                                  )
+                                )}
                             </select>
                           </div>
-                          <div className="form-group col-md-3">
+                          {/* <div className="form-group col-md-3">
                             <input
                               type="text"
                               className="form-control my-2 my-lg-1"
                               id="inputLocation4"
                               placeholder="Location"
                             />
-                          </div>
+                          </div> */}
                           <div className="form-group col-md-2 align-self-center">
                             <button type="submit" className="btn btn-primary">
                               Search Now

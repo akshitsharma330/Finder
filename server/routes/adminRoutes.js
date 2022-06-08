@@ -24,6 +24,7 @@ router.post("/addSubCategory",subCatController.addSubCategory)
 router.post("/deleteSubCategory",subCatController.deleteSubCategory)
 router.post("/listPosts",postController.listPosts)
 router.post("/deletePost",postController.deletePost)
+router.post("/makeFeatured",postController.makeFeatured)
 
 
 

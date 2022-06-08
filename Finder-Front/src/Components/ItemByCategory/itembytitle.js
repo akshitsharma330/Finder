@@ -6,25 +6,32 @@ import Card from "../Card/Card";
 import "react-toastify/dist/ReactToastify.css";
 import qs from "qs";
 
-export default function ItemByCategory() {
+export default function ItemByTitle() {
   var [posts, setPosts] = useState([]);
 
   const linkParam = useParams();
 
   useEffect(() => {
     let postdata = {
-      id: linkParam.id,
+    //   title: linkParam.title,
+    //   cId: linkParam.cId,
     };
+    if(linkParam.title!==undefined){   
+        postdata.title = linkParam.title; 
+    }
+    if(linkParam.cId!==undefined){   
+        postdata.cat_Id = linkParam.cId; 
+    }
+    console.log("Sarch",postdata);
     axios
-      .post(`${BaseURLUser}listPostsByCategory`, qs.stringify(postdata), {
+      .post(`${BaseURLUser}searchPost`, qs.stringify(postdata), {
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          authorization: sessionStorage.getItem("token"),
+          "Content-Type": "application/x-www-form-urlencoded"
         },
       })
       .then((data) => {
-        console.log(data);
-        setPosts(data.data.posts);
+        console.log("Search Data is ",data.data.post);
+        setPosts(data.data.post);  
       });
   }, []);
   return (

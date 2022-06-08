@@ -1,13 +1,13 @@
 var mongoose = require("mongoose");
 var postSchema = mongoose.Schema({
-  user_Id: { type: mongoose.Schema.Types.ObjectId, default: null, ref: 'user' },
+  user_Id: { type: mongoose.Schema.Types.ObjectId, default: null, ref: 'uinfo' },
   title: { type: String, default: "", required: true },
   description: { type: String, default: "", required: true },
   price : { type: String, default: "0", required: true },
   negotiable: { type: Boolean, default: false, required: true},
   featured: { type : Boolean, default: false, required: true},
-  cat_Id: { type: mongoose.Schema.Types.ObjectId, default: null },
-  subCat_Id: { type: mongoose.Schema.Types.ObjectId, default: null },
+  cat_Id: { type: mongoose.Schema.Types.ObjectId, default: null,ref:"categorie" },
+  subCat_Id: { type: mongoose.Schema.Types.ObjectId, default: null,ref:"subcategory" },
   imgs: { type: Array, default: [String] },
   latitude: { type: String, default: "", required: true },
   longitude: { type: String, default: "", required: true },

@@ -31,15 +31,18 @@ const storage1=multer.diskStorage({
 const upload1=multer({storage: storage1})
 router.post("/listCategories", catController.listCategories)
 router.post("/register",upload.single("profile"),userController.register)
+router.post("/listPosts",postController.listPosts)
 
+router.post("/listSubCategories", subCatController.listSubCategories)
+router.post("/searchPost",postController.searchPost)
+router.post("/viewPost",postController.viewPost)
+
+router.post("/listPostsByCategory", postController.listPostsByCategory)
 router.post('/login',userController.login)
 // router.use(require('../common/usermiddleware'))
 router.post("/addPost",upload1.array("image",4),postController.addpost)
 router.post("/updatePassword",userController.updatePassword)
 router.post("/updateInfo",userController.updateInfo)
-router.post("/searchPost",postController.searchPost)
-router.post("/listSubCategories", subCatController.listSubCategories)
-router.post("/listPostsByCategory", postController.listPostsByCategory)
 
 // router.post("/updatePic",userController.updatePic)
 

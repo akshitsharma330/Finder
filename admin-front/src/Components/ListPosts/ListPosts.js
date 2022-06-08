@@ -15,6 +15,39 @@ export default class ListCategories extends Component {
       totalPosts: "",
     };
   }
+  makeFeatured=(Id)=>{
+    let postData={
+      id:Id,
+    }
+    axios.post(`${BaseURLAdmin}/makeFeatured`,qs.stringify(postData),{
+      headers:{"Content-Type":"application/x-www-form-urlencoded",authorization:sessionStorage.getItem("token")}
+    }).then(data=>{
+      if (data.data.success) {
+        toast.success(data.data.message, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+        this.refreshList();
+      } else {
+        toast.error(data.data.message, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      }
+    })
+  }
   refreshList = () => {
     axios
       .post(
@@ -24,7 +57,7 @@ export default class ListCategories extends Component {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
             authorization: sessionStorage.getItem("token"),
-          },
+          }
         }
       )
       .then((data) => {
@@ -134,6 +167,14 @@ export default class ListCategories extends Component {
                             }}
                           >
                             <i className="fas fa-trash"></i>
+                          </button>
+                          <button
+                            className="btn btn-primary"
+                            onClick={() => {
+                              this.makeFeatured(ele._id);
+                            }}
+                          >
+                            <i className="fas fa-star"></i>
                           </button>
                         </td>
                       </tr>
