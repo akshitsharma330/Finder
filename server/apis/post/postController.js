@@ -25,6 +25,8 @@ exports.addpost = (req, res) => {
     // postObj.subCat_Id = req.body.subCat_Id;
     postObj.latitude = req.body.lat != undefined ? req.body.lat : 0;
     postObj.longitude = req.body.long != undefined ? req.body.long : 0;
+    postObj.state = req.body.state;
+    postObj.city = req.body.city;
     let post = "public/images/post/default.jpg";
     if (req.files != undefined) {
       req.files.forEach((file) => {
@@ -194,3 +196,24 @@ exports.makeFeatured = (req, res) => {
       });
     });
 };
+
+exports.myPosts = (req, res) => {
+  postModel
+    .find({ user_Id: req.body.id })
+    .populate("cat_Id")
+    .then((data) => {
+      res.json({
+        message: "All Posts",
+        status: 200,
+        success: true,
+        post: data,
+      });
+    }).catch(err=>{
+      res.json({
+        message: "Error while adding",
+        status: 500,
+        success: false,
+        error: String(err),
+      });
+    })
+}

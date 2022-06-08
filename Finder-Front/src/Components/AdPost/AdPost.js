@@ -140,6 +140,8 @@ export default function AdPost() {
     form.append("userId", sessionStorage.getItem("userId"));
     form.append("lat", lat);
     form.append("long", long);
+    form.append("state", state);
+    form.append("city", city);
     console.log(form);
     axios
       .post(`${BaseURLUser}addPost`, form, {})

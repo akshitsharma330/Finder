@@ -32,6 +32,7 @@ const upload1=multer({storage: storage1})
 router.post("/listCategories", catController.listCategories)
 router.post("/register",upload.single("profile"),userController.register)
 router.post("/listPosts",postController.listPosts)
+router.post("/myPosts",postController.myPosts)
 
 router.post("/listSubCategories", subCatController.listSubCategories)
 router.post("/searchPost",postController.searchPost)

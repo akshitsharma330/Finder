@@ -11,6 +11,9 @@ var postSchema = mongoose.Schema({
   imgs: { type: Array, default: [String] },
   latitude: { type: String, default: "", required: true },
   longitude: { type: String, default: "", required: true },
+  state: { type: String, default: "", required: true },
+  city: { type: String, default: "", required: true },
   createAt: { type: Date, default: Date.now() },
+
 });
 var post = (module.exports = mongoose.model("post", postSchema));
