@@ -138,11 +138,11 @@ export default class BlockedUsers extends Component {
         <ToastContainer />
         <div className="container-fluid">
           {/* <!-- Page Heading --> */}
-          <h1 className="h3 mb-2 text-gray-800">Tables</h1>
+          <h1 className="h3 mb-2 text-gray-800">Blockes Users</h1>
           <div className="card shadow mb-4">
             <div className="card-header py-3">
               <h6 className="m-0 font-weight-bold text-primary">
-                DataTables Example
+                Blocked Users List
               </h6>
             </div>
             <div className="card-body">

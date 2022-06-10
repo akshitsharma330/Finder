@@ -10,6 +10,11 @@ export default function ListSubCategories() {
   var [subCategories, setSubCategories] = useState([]);
   const linkParam = useParams();
 
+  console.log(linkParam.id);
+  var postdata = {
+    cat_id: linkParam.id,
+    
+  };
   const refreshList = () => {
     axios
       .post(`${BaseURLAdmin}/listSubCategories`, qs.stringify(postdata), {
@@ -60,10 +65,8 @@ export default function ListSubCategories() {
       });
   };
 
-  var postdata = {
-    cat_id: linkParam.id,
-  };
   useEffect(() => {
+    console.log(postdata)
     axios
       .post(`${BaseURLAdmin}/listSubCategories`, qs.stringify(postdata), {
         headers: {
@@ -72,6 +75,7 @@ export default function ListSubCategories() {
         },
       })
       .then((data) => {
+        console.log(data)
         setSubCategories(data.data.subCategories);
       });
   }, []);

@@ -57,6 +57,13 @@ exports.listSubCategories=(req,res)=>{
             "success":true,
             subCategories:data
         })
+    }).catch(err=>{
+        res.json({
+            "message":"error occured",
+            "status":500,
+            "success":false,
+            "error":String(err)
+        })
     })
     
 
